@@ -50,5 +50,31 @@ public class StudentTest {
 		assertTrue(student2.canPlaySong(30));
 		
 	}
+	
+	@Test
+	public void testStudent3PlaysPerDay() {
+		StudentCollection studentCollection = new StudentCollection();
+		Student student1 = new Student("Chri",  1);
+		Student student2 = new Student("Devon", 22);
+		Student student3 = new Student("River", 333);
+		Student student4 = new Student("Ryan",  444);
+		assertTrue(studentCollection.add(student1));
+		assertTrue(studentCollection.add(student2));
+		assertTrue(studentCollection.add(student3));
+		assertTrue(studentCollection.add(student4));
+		Song song = new Song("Song1", "Ian Tracey", 90);
+		assertTrue(student1.selectSong(song));
+		assertTrue(student1.selectSong(song));
+		assertTrue(student1.selectSong(song));
+		// doesn't allow a 4th play
+		assertFalse(student1.selectSong(song));
+		// doesnt allow a playing a song greater than 1500 minutes
+		
+		
+		
+		
+		
+		
+	}
 
 }

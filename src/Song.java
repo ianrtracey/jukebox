@@ -1,7 +1,3 @@
-
-
-
-
 public class Song {
 	
 	private int timesPlayedToday;
@@ -10,7 +6,7 @@ public class Song {
 	private String myArtist;
 	
 	
-	public Song(String name, int duration, String artist){
+	public Song(String name, String artist, int duration){
 		this.myTitle   = name;
 		this.myArtist = artist;
 		this.durationInSeconds = duration;

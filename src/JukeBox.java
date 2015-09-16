@@ -15,7 +15,7 @@ public class JukeBox {
 	}
 	
 	private void populateSongs(){
-		Songs.put("Where Brooklyn At/Biggie Smalls", new Song("Where Brooklyn At?", 180, "Biggie Smalls"));
+		Songs.put("Where Brooklyn At/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
 		
 	}
 	

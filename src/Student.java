@@ -18,16 +18,25 @@ public class Student {
 		this.lastTimeSelectedSong = LocalDate.now();
 	}
 	
-	public void selectSong(Song song) {
+	public boolean selectSong(Song song) {
 		
-		if (this.lastTimeSelectedSong == LocalDate.now()) {
+		if ( !canPlaySong(song.getDurationOfSong()) ) {
+			
+			return false;
+			
+		}
+		
+		if ( this.lastTimeSelectedSong.equals(LocalDate.now()) ){
 			numOfSongsPlayedToday++;
-
+			
+			
 		} else {
 			this.lastTimeSelectedSong = LocalDate.now();
 			numOfSongsPlayedToday = 1;
-		}
 			
+		}
+			this.lifetimeSecondsRemaining = this.lifetimeSecondsRemaining - song.getDurationOfSong();
+			return true;
 	}
 	
 		
