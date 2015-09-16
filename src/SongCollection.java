@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class SongCollection {
 
-	HashMap<String, Song> Songs = new HashMap<String, Song>();
+	HashMap<String, Song> songs = new HashMap<String, Song>();
 	
 	public SongCollection(){
 		populateSongs();
@@ -11,8 +11,12 @@ public class SongCollection {
 
 	
 	private void populateSongs(){
-		Songs.put("Where Brooklyn At/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
+		songs.put("Where Brooklyn At/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
 		
+	}
+	
+	public int getSize() {
+		return songs.size();
 	}
 	
 	
