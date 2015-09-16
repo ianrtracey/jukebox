@@ -11,12 +11,25 @@ public class SongCollection {
 
 	
 	private void populateSongs(){
-		songs.put("Where Brooklyn At/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
+		songs.put("Where Brooklyn At?/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
 		
 	}
 	
 	public int getSize() {
 		return songs.size();
+	}
+	
+	public boolean add(Song song) {
+		if (!songs.containsKey(String.format("%s/%s", song.getTitle(), song.getArtist()))) {
+			songs.put(String.format("%s/%s", song.getTitle(), song.getArtist()), song);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public Song get(String songName) {
+		return songs.get(songName);
 	}
 	
 	

@@ -3,6 +3,9 @@ import java.util.ArrayDeque;
 public class JukeBox {
 	
 	StudentCollection studentCollection;
+
+
+
 	SongCollection songCollection;
 	ArrayDeque<Song> playQueue  = new ArrayDeque<Song>();
 	
@@ -17,12 +20,35 @@ public class JukeBox {
 		// keep running till shutdown
 	}
 	
+	
+	/*
+	 * QUEUE OPERATIONS 
+	 */
+	
 	public void queueSong(Song song) {
+		if (song == null) {
+			throw new NullPointerException("Song being added to Queue is null");
+		} else {
 		this.playQueue.addFirst(song);
+		}
 	}
 	
 	public Song dequeueSong() {
 		return this.playQueue.pollLast();
+	}
+	
+	
+	/*
+	 * GETTERS AND SETTERS
+	 */
+	
+	public StudentCollection getStudentCollection() {
+		return studentCollection;
+	}
+
+
+	public SongCollection getSongCollection() {
+		return songCollection;
 	}
 
 }

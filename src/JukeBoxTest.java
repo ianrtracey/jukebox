@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class StudentTest {
+public class JukeBoxTest {
 
 	@Test
 	public void testStudentCollectionAddAndLookup() {
@@ -68,12 +68,33 @@ public class StudentTest {
 		assertTrue(student1.selectSong(song));
 		// doesn't allow a 4th play
 		assertFalse(student1.selectSong(song));
-		// doesnt allow a playing a song greater than 1500 minutes
+		// doesnt allow a playing a song greater than 1500 minutes		
+	
+	}
+	
+	@Test
+	public void testJukeBoxQueue() {
+		StudentCollection studentCollection = new StudentCollection();
+		Student student1 = new Student("Chri",  1);
+		Student student2 = new Student("Devon", 22);
+		Student student3 = new Student("River", 333);
+		Student student4 = new Student("Ryan",  444);
 		
+		SongCollection songCollection = new SongCollection();
 		
+		JukeBox jukebox = new JukeBox(studentCollection, songCollection);
 		
+		// Cant add the same song twice
+		assertTrue(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", 90) ));
+		assertFalse(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", 90) ));
+
 		
+		jukebox.queueSong(jukebox.getSongCollection().get("Where Brooklyn At?/Biggie Smalls"));
+		jukebox.queueSong(jukebox.getSongCollection().get("SongTest/Worst Artist"));
 		
+		assertTrue( jukebox.dequeueSong().getTitle() == "Where Brooklyn At?");
+		assertTrue( jukebox.dequeueSong().getTitle() == "SongTest");
+		assertNull( jukebox.dequeueSong());
 		
 	}
 
