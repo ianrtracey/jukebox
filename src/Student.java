@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 
 public class Student {
 	
@@ -5,6 +6,7 @@ public class Student {
 	private int password;
 	private int numOfSongsPlayedToday;
 	private int lifetimeSecondsRemaining;
+	private LocalDate lastTimeSelectedSong; 
 	
 	
 	public Student(String id, int password) {
@@ -13,8 +15,20 @@ public class Student {
 		this.password = password;
 		this.numOfSongsPlayedToday = 0;
 		this.lifetimeSecondsRemaining = (1500 * 60);
+		this.lastTimeSelectedSong = LocalDate.now();
 	}
 	
+	public void selectSong(Song song) {
+		
+		if (this.lastTimeSelectedSong == LocalDate.now()) {
+			numOfSongsPlayedToday++;
+
+		} else {
+			this.lastTimeSelectedSong = LocalDate.now();
+			numOfSongsPlayedToday = 1;
+		}
+			
+	}
 	
 		
 	public boolean canPlaySong(int songLength) {
@@ -24,6 +38,7 @@ public class Student {
 	}
 	
 	private boolean hasStudentPlayedNumOfSongsToday(int numOfSongsAllowed) {
+		
 		return this.numOfSongsPlayedToday < numOfSongsAllowed;
 	}
 	
