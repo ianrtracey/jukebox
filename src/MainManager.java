@@ -14,6 +14,7 @@ public class MainManager {
 		GUIManager GUI = new GUIManager(allSongs);
 		GUI.setVisible(true);
 		
+		allSongs.getValues();
 				
 		
 		

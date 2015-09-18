@@ -28,11 +28,16 @@ public class GUIManager extends JFrame {
 	
 	public GUIManager(SongCollection allSongs){
 		
-		//this.songLib = allSongs;
+		setUpList(allSongs);
 
 		setUpWindow();
 		
 
+		
+	}
+	
+	private void setUpList(SongCollection songs){
+		
 		
 	}
 	
@@ -47,13 +52,12 @@ public class GUIManager extends JFrame {
 		
 	}
 	
+	
+	// TODO:	WE WILL NEED A JTable OBJECT FOR THIS!!!
+	
 	private void setUpVisibleSongList(){
 		
-		//for(Song s : songLib){
-			
-			
-			
-		//}
+		//for(Song s : songLib){}
 		
 		
 		

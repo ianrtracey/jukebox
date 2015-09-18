@@ -28,6 +28,17 @@ public class SongCollection {
 		return songs.get(songName);
 	} // Ends Method get
 	
+	public void getValues(){
+		
+		for(Song s : songs.values()){
+			System.out.println(s.getArtist() + " " + s.getTitle() + " " + s.getDurationOfSong());
+			
+			
+		}
+		
+		
+	}
+	
 	private void populateSongs(){
 		songs.put("Are You Gonna Go My Way?/Lenny Kravitz", new Song("Are You Gonna Go My Way?", "Lenny Kravitz", 284));
 		songs.put("Satisfied/8stops7", new Song("Satisfied", "8stops7", 185));
