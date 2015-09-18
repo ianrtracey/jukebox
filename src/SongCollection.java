@@ -10,10 +10,6 @@ public class SongCollection {
 	
 
 	
-	private void populateSongs(){
-		songs.put("Where Brooklyn At?/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
-		
-	}
 	
 	public int getSize() {
 		return songs.size();
@@ -30,6 +26,12 @@ public class SongCollection {
 	
 	public Song get(String songName) {
 		return songs.get(songName);
+	}
+	
+	private void populateSongs(){
+		songs.put("Where Brooklyn At?/Biggie Smalls", new Song("Where Brooklyn At?",  "Biggie Smalls", 180));
+		
+		
 	}
 	
 	
