@@ -2,14 +2,11 @@ import java.util.HashMap;
 
 public class SongCollection {
 
-	HashMap<String, Song> songs = new HashMap<String, Song>();
+	HashMap<String, Song> songs = new HashMap<String, Song>(); // Contains all the songs in this jukebox's library
 	
 	public SongCollection(){
 		populateSongs();
 	} // Ends Constructor
-	
-
-	
 	
 	public int getSize() {
 		return songs.size();
@@ -20,25 +17,13 @@ public class SongCollection {
 			songs.put(String.format("%s/%s", song.getTitle(), song.getArtist()), song);
 			return true;
 		}
-		
 		return false;
 	} // Ends Method add
 	
-	public Song get(String songName) {
+	public Song getSong(String songName) {
 		return songs.get(songName);
-	} // Ends Method get
-	
-	public void getValues(){
+	} // Ends Method getSong
 		
-		for(Song s : songs.values()){
-			System.out.println(s.getArtist() + " " + s.getTitle() + " " + s.getDurationOfSong());
-			
-			
-		}
-		
-		
-	}
-	
 	private void populateSongs(){
 		songs.put("Are You Gonna Go My Way?/Lenny Kravitz", new Song("Are You Gonna Go My Way?", "Lenny Kravitz", 284));
 		songs.put("Satisfied/8stops7", new Song("Satisfied", "8stops7", 185));

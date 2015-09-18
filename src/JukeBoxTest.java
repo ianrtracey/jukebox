@@ -91,8 +91,8 @@ public class JukeBoxTest {
 		assertFalse(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", 90) ));
 
 		
-		jukebox.queueSong(jukebox.getSongCollection().get("Are You Gonna Go My Way?/Lenny Kravitz"));
-		jukebox.queueSong(jukebox.getSongCollection().get("SongTest/Worst Artist"));
+		jukebox.queueSong(jukebox.getSongCollection().getSong("Are You Gonna Go My Way?/Lenny Kravitz"));
+		jukebox.queueSong(jukebox.getSongCollection().getSong("SongTest/Worst Artist"));
 		
 		assertTrue( jukebox.dequeueSong().getTitle() == "Are You Gonna Go My Way?");
 		assertTrue( jukebox.dequeueSong().getTitle() == "SongTest");
