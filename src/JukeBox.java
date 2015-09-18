@@ -21,6 +21,12 @@ public class JukeBox {
 	}
 	
 	public boolean login(String id, int password) {
+		if( this.studentCollection.get(id) != null ) { 
+			if( this.studentCollection.get(id).getPassword() == password) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 	

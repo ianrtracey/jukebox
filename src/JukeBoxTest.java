@@ -117,11 +117,24 @@ public class JukeBoxTest {
 		song.play();
 		assertTrue(song.canPlay());
 		song.play();
-		assertFalse(song.canPlay());
-
-
-
-
+		assertFalse(song.canPlay());	
+	}
+	
+	@Test
+	public void testJukeboxLogin() {
+		SongCollection songs       = new SongCollection();
+		StudentCollection students = new StudentCollection();
+		
+		students.add( new Student("Chri",  1) );
+		students.add( new Student("Devon", 22) );
+		students.add( new Student("River", 333) );
+		students.add( new Student("Ryan",  444) );
+		
+		JukeBox jukebox = new JukeBox(students, songs);
+		
+		assertFalse(jukebox.login("Chris", 1));
+		assertFalse(jukebox.login("Chri", 10));
+		assertTrue(jukebox.login("Chri", 1));
 		
 	}
 
