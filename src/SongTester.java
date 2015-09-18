@@ -17,13 +17,13 @@ public class SongTester {
 	public void test_timesPlayed() {
 		mySong = new Song("Can't Forget About You", "Nas", 180 );
 		assertEquals(0, mySong.getTimesPlayedToday());
-		mySong.playSong();
+		mySong.play();
 		assertEquals(1, mySong.getTimesPlayedToday());
-		mySong.playSong();
+		mySong.play();
 		assertEquals(2, mySong.getTimesPlayedToday());
-		mySong.playSong();
+		mySong.play();
 		assertEquals(3, mySong.getTimesPlayedToday());
-		mySong.playSong();
+		mySong.play();
 		assertNotEquals(4, mySong.getTimesPlayedToday());
 	}
 	

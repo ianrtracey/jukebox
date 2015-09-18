@@ -20,6 +20,10 @@ public class JukeBox {
 		// keep running till shutdown
 	}
 	
+	public boolean login(String id, int password) {
+		return false;
+	}
+	
 	
 	/*
 	 * QUEUE OPERATIONS 

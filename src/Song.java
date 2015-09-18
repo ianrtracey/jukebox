@@ -1,7 +1,10 @@
+import java.time.LocalDate;
+
 public class Song {
 	
-	private int timesPlayedToday;
+	private int timesPlayedToday = 0;
 	private int durationInSeconds;
+	private LocalDate lastTimePlayed = LocalDate.now();
 	private String myTitle;
 	private String myArtist;
 	
@@ -28,16 +31,43 @@ public class Song {
 		return this.myArtist;
 	}
 	
-	public void playSong(){
+	// Used for testing
+	public void setLastTimePlayed(LocalDate date) {
+		this.lastTimePlayed = date;
+	}
+	
+	public void updateNumOfPlays() {
 		
-		if(this.timesPlayedToday >= 3 ){
-			System.out.println("Sorry, this song was already played three times today!");
+		if( this.lastTimePlayed.equals(LocalDate.now())) {
+			this.timesPlayedToday++;
+		} else {
+			this.lastTimePlayed = LocalDate.now();
+			this.timesPlayedToday = 1;
+		}
+		
+	}
+	
+	
+	public void play(){
+		
+		if( canPlay() ){
+			
+			updateNumOfPlays();
+			// song do stuff
 		}
 		else{
-			// song.play();
-			this.timesPlayedToday++;
+			// dont play
 		}
-	} // Ends Method playSong
+	} 
+	
+	public boolean canPlay() {
+		if ( this.timesPlayedToday < 3 || !this.lastTimePlayed.equals(LocalDate.now())) {
+			return true;
+		} 
+		
+		return false;
+	}
+	
 	
 
 }

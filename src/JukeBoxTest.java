@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 public class JukeBoxTest {
@@ -95,6 +97,31 @@ public class JukeBoxTest {
 		assertTrue( jukebox.dequeueSong().getTitle() == "Where Brooklyn At?");
 		assertTrue( jukebox.dequeueSong().getTitle() == "SongTest");
 		assertNull( jukebox.dequeueSong());
+	}
+	
+	@Test 
+	public void testTimesSongPlayed() {
+		Song song = new Song("tester", "nas", 70);
+		assertTrue(song.canPlay());
+		song.play();
+		assertTrue(song.canPlay());
+		song.play();
+		assertTrue(song.canPlay());
+		song.play();
+		assertFalse(song.canPlay());
+		// makes the last time played yesterday
+		song.setLastTimePlayed(LocalDate.now().minusDays(1));
+		assertTrue(song.canPlay());
+		song.play();
+		assertTrue(song.canPlay());
+		song.play();
+		assertTrue(song.canPlay());
+		song.play();
+		assertFalse(song.canPlay());
+
+
+
+
 		
 	}
 
