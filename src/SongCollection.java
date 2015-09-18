@@ -6,14 +6,14 @@ public class SongCollection {
 	
 	public SongCollection(){
 		populateSongs();
-	}
+	} // Ends Constructor
 	
 
 	
 	
 	public int getSize() {
 		return songs.size();
-	}
+	} // Ends Method getSize
 	
 	public boolean add(Song song) {
 		if (!songs.containsKey(String.format("%s/%s", song.getTitle(), song.getArtist()))) {
@@ -22,11 +22,11 @@ public class SongCollection {
 		}
 		
 		return false;
-	}
+	} // Ends Method add
 	
 	public Song get(String songName) {
 		return songs.get(songName);
-	}
+	} // Ends Method get
 	
 	private void populateSongs(){
 		songs.put("Are You Gonna Go My Way?/Lenny Kravitz", new Song("Are You Gonna Go My Way?", "Lenny Kravitz", 284));
@@ -54,8 +54,6 @@ public class SongCollection {
 		songs.put("Shark/Ash", new Song("Shark", "Ash", 199));
 		songs.put("Stompbox/Overseer", new Song("Stompbox", "Overseer", 237));
 		songs.put("Turbo Lover/Judas Priest", new Song("Turbo Lover", "Judas Priest", 631));
-
-	}
+	} // Ends Method populateSongs
 	
-	
-}
+} // Ends Class SongCollection

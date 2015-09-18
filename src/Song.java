@@ -10,23 +10,23 @@ public class Song {
 		this.myTitle   = name;
 		this.myArtist = artist;
 		this.durationInSeconds = duration;
-	}
+	} // Ends Constructor
 	
 	public int getTimesPlayedToday(){
 		return this.timesPlayedToday;
-	}
+	} // Ends Method getTimesPlayedToday
 	
 	public int getDurationOfSong(){
 		return this.durationInSeconds;
-	}
+	} // Ends Method getDurationOfSong
 	
 	public String getTitle(){
 		return this.myTitle;
-	}
+	} // Ends Method getTitle
 	
 	public String getArtist(){
 		return this.myArtist;
-	}
+	} // Ends Method getArtist
 	
 	public void playSong(){
 		
