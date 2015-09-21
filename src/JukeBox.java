@@ -3,9 +3,6 @@ import java.util.ArrayDeque;
 public class JukeBox {
 	
 	StudentCollection studentCollection;
-
-
-
 	SongCollection songCollection;
 	ArrayDeque<Song> playQueue  = new ArrayDeque<Song>();
 	
@@ -26,7 +23,6 @@ public class JukeBox {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
