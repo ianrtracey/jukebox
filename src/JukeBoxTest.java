@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
+import model.Song;
+
 public class JukeBoxTest {
 
 	@Test

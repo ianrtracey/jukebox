@@ -8,13 +8,15 @@ public class StudentCollection {
 	
 	public StudentCollection() {
 		students = new HashMap<String,Student>();
-		size = 0;
+		populateStudents();
 	}
 	
 	public boolean add(Student student) {
 		if (!students.containsKey(student.getId())) {
 			students.put(student.getId(), student);
+			size++;
 			return true;
+		
 		}
 		
 		return false;
@@ -26,6 +28,13 @@ public class StudentCollection {
 		}
 		
 		return students.get(id);
+	}
+	
+	private void populateStudents() {
+		this.add( new Student("Chri",  1) );
+ 		this.add( new Student("Devon", 22) );
+ 		this.add( new Student("River", 333) );
+		this.add( new Student("Ryan",  444) );
 	}
 
 }

@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import model.Song;
+
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -50,4 +53,6 @@ public class GUIManager extends JFrame {
 		this.add(headerMessage, BorderLayout.NORTH);
 		this.add(new JScrollPane(myTable));
 	} // Ends Method setUpWindow
+	
+
 } // Ends Class GUIManager

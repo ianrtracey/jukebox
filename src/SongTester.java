@@ -2,6 +2,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import model.Song;
+
 public class SongTester {
 
 	Song mySong; // init Song obj var
