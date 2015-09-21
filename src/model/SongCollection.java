@@ -1,6 +1,5 @@
+package model;
 import java.util.HashMap;
-
-import model.Song;
 
 public class SongCollection {
 

@@ -1,3 +1,4 @@
+package model;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -5,8 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
-import model.Song;
 
 import java.util.HashMap;
 import java.util.Set;

@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import model.Song;
+import model.SongCollection;
+import model.Student;
+import model.StudentCollection;
 
 public class JukeBoxTest {
 

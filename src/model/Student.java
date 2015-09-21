@@ -1,6 +1,5 @@
+package model;
 import java.time.LocalDate;
-
-import model.Song;
 
 public class Student {
 	
