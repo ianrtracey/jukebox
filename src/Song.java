@@ -7,11 +7,13 @@ public class Song {
 	private LocalDate lastTimePlayed = LocalDate.now();
 	private String myTitle;
 	private String myArtist;
+	private String filename;
 	
 	
-	public Song(String name, String artist, int duration){
+	public Song(String name, String artist, String filename, int duration){
 		this.myTitle   = name;
 		this.myArtist = artist;
+		this.filename = filename;
 		this.durationInSeconds = duration;
 	} // Ends Constructor
 	

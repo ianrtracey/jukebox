@@ -64,7 +64,7 @@ public class JukeBoxTest {
 		assertTrue(studentCollection.add(student2));
 		assertTrue(studentCollection.add(student3));
 		assertTrue(studentCollection.add(student4));
-		Song song = new Song("Song1", "Ian Tracey", 90);
+		Song song = new Song("Song1", "Ian Tracey", "songtest.mp3", 90);
 		assertTrue(student1.selectSong(song));
 		assertTrue(student1.selectSong(song));
 		assertTrue(student1.selectSong(song));
@@ -87,8 +87,8 @@ public class JukeBoxTest {
 		JukeBox jukebox = new JukeBox(studentCollection, songCollection);
 		
 		// Cant add the same song twice
-		assertTrue(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", 90) ));
-		assertFalse(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", 90) ));
+		assertTrue(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", "songtest.mp3", 90) ));
+		assertFalse(jukebox.getSongCollection().add( new Song("SongTest", "Worst Artist", "songtest.mp3", 90) ));
 
 		
 		jukebox.queueSong(jukebox.getSongCollection().get("Are You Gonna Go My Way?/Lenny Kravitz"));
@@ -101,7 +101,7 @@ public class JukeBoxTest {
 	
 	@Test 
 	public void testTimesSongPlayed() {
-		Song song = new Song("tester", "nas", 70);
+		Song song = new Song("tester", "nas", "tester.mp3", 70);
 		assertTrue(song.canPlay());
 		song.play();
 		assertTrue(song.canPlay());
