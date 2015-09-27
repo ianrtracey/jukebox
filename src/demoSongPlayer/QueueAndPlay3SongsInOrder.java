@@ -22,7 +22,7 @@ public class QueueAndPlay3SongsInOrder {
 
         Song a = (new Song("Space Music", "Sun Microsytems", baseDir + "spacemusic.au", 7) );
         Song b = (new Song("Flute", "Sun Microsytems", baseDir + "flute.aif", 50));
-        Song c = (new Song("Blue Ridge Mountain Mist","Schuckett, Ralph", baseDir + "BlueRidgeMountainMist.mp3", 90));
+        Song c = (new Song("tada", "Mercer", baseDir + "tada.wav", 2));
       
         // Play 3 songs in FIFO order
         playList.queueSong(a);

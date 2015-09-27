@@ -21,7 +21,7 @@ public class PlayList {
 	
 	public PlayList() {
 		playQueue = new ArrayDeque<Song>();
-	    waiter	  = new ObjectWaitingForSongToEnd();
+	    waiter	  = new ObjectWaitingForSongToEnd(this);
 		size = 0;
 	}
 	
@@ -40,17 +40,8 @@ public class PlayList {
 	}
 	
 	public void play() {
-
-		waiter.setIsPlaying(true);
-		SongPlayer.playFile(waiter, baseDir + "flute.aif");
-		while( waiter.isPlaying() ) {
-			System.out.println("playing....");
-		}
 		
-			
-		
-		
-
+		SongPlayer.playFile(waiter, dequeueSong().getFileName());
 	}
 	
 
@@ -59,41 +50,51 @@ public class PlayList {
 //
 //    SongPlayer.playFile(waiter, baseDir + "SwingCheese.mp3");
 
-  }
-  
 	// Singleton
 
-  /**
-   * An inner class that allows an instance of this to receive a
-   * songFinishedPlaying when the audio file has been played. Note: static was
-   * added here because it is called from main.
-   */
-  class ObjectWaitingForSongToEnd implements EndOfSongListener {
-	  
-	public boolean currentlyPlaying;
+	  /**
+	   * An inner class that allows an instance of this to receive a
+	   * songFinishedPlaying when the audio file has been played. Note: static was
+	   * added here because it is called from main.
+	   */
+	  class ObjectWaitingForSongToEnd implements EndOfSongListener {
+		  
+		public boolean currentlyPlaying;
+		public PlayList playlist;
+		
+		public ObjectWaitingForSongToEnd(PlayList playlist) {
+			currentlyPlaying = false;
+			this.playlist = playlist;
+		}
+		
+		public void setIsPlaying(boolean b) {
+			currentlyPlaying = b;
+		}
+		
+		public boolean isPlaying() {
+			return currentlyPlaying;
+		}
+		
+	    public void songFinishedPlaying(EndOfSongEvent eosEvent) {
+	    	if(playlist.size > 0) {
+	    		try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		playlist.play();
+	    	} else {
+	    	}
+	    
+	    	
+	    }
+	   
+	  }
 	
-	public ObjectWaitingForSongToEnd() {
-		currentlyPlaying = false;
-	}
 	
-	public void setIsPlaying(boolean b) {
-		currentlyPlaying = b;
-	}
-	
-	public boolean isPlaying() {
-		return currentlyPlaying;
-	}
-	
-    public void songFinishedPlaying(EndOfSongEvent eosEvent) {
-    	
-    	this.currentlyPlaying = false;
-    	System.out.println("Stopped playing");
-    }
-    
-    
-
-
-    
   }
+  
+
 
 
