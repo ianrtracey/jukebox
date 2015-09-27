@@ -1,10 +1,13 @@
 package model;
 import java.util.ArrayDeque;
 
+import songplayer.PlayList;
+
 public class JukeBox {
 	
 	StudentCollection studentCollection;
 	SongCollection songCollection;
+	PlayList playlist;
 	
 	
 	public JukeBox(StudentCollection students, SongCollection songs) {
@@ -31,6 +34,9 @@ public class JukeBox {
 	/*
 	 * QUEUE OPERATIONS 
 	 */
+	public void queue(Song song) {
+		this.playlist.queueSong(song);
+	}
 	
 	
 

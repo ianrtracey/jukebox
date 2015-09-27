@@ -13,7 +13,7 @@ public class StudentCollection {
 	}
 	
 	public boolean add(Student student) {
-		if (!students.containsKey(student.getId())) {
+		if (students.containsKey(student.getId()) != true) {
 			students.put(student.getId(), student);
 			size++;
 			return true;
@@ -22,6 +22,7 @@ public class StudentCollection {
 		
 		return false;
 	}
+	
 	
 	public Student get(String id) {
 		if (!students.containsKey(id)) {
@@ -35,7 +36,7 @@ public class StudentCollection {
 		this.add( new Student("Chri",  1) );
  		this.add( new Student("Devon", 22) );
  		this.add( new Student("River", 333) );
-		this.add( new Student("Ryan",  444) );
+		this.add( new Student("Ryan",  4444) );
 	}
 
 }
