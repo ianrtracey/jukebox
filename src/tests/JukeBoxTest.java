@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import model.JukeBox;
+import model.PlayList;
 import model.Song;
 import model.SongCollection;
 import model.Student;
 import model.StudentCollection;
-import songplayer.PlayList;
 
 public class JukeBoxTest {
 

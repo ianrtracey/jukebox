@@ -1,6 +1,6 @@
 package demoSongPlayer;
 
-import songplayer.PlayList;
+import model.PlayList;
 import model.Song;
 
 

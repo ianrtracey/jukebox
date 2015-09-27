@@ -1,8 +1,6 @@
 package model;
 import java.util.ArrayDeque;
 
-import songplayer.PlayList;
-
 public class JukeBox {
 	
 	StudentCollection studentCollection;

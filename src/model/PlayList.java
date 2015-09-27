@@ -1,4 +1,4 @@
-package songplayer;
+package model;
 
 import java.util.ArrayDeque;
 import java.util.Calendar;
@@ -37,6 +37,10 @@ public class PlayList {
 	public Song dequeueSong() {
 		size--;
 		return this.playQueue.pollLast();
+	}
+	
+	public int getSize() {
+		return this.size;
 	}
 	
 	public void play() {

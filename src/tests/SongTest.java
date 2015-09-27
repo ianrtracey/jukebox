@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import model.Song;
 
-public class SongTester {
+public class SongTest {
 
 	Song mySong; // init Song obj var
 	@Test
