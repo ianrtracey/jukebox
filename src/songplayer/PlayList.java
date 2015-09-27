@@ -1,9 +1,10 @@
-package model;
+package songplayer;
 
 import java.util.ArrayDeque;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import model.*;
 import songplayer.EndOfSongEvent;
 import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
@@ -94,7 +95,5 @@ public class PlayList {
 
     
   }
-	
-
 
 

@@ -34,6 +34,10 @@ public class Song {
 		return this.myArtist;
 	} // Ends Method getArtist
 	
+	public String getFileName(){
+		return this.filename;
+	} // Ends Method getArtist
+	
 	// Used for testing
 	public void setLastTimePlayed(LocalDate date) {
 		this.lastTimePlayed = date;
