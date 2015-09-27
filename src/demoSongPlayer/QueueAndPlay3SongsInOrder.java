@@ -1,8 +1,19 @@
+/*+----------------------------------------------------------------------
+ ||
+ ||  Class QueueAndPlay3SongsInOrder
+ ||
+ ||        Purpose:  Queues and plays 3 songs in order, delayed by 2 seconds
+ ||                  between each song
+ ||
+ |+-----------------------------------------------------------------------
+ ||
+ ||        Methods: public static void main(String[] args)
+ ||					public void run()
+ ||
+ ++-----------------------------------------------------------------------*/
 package demoSongPlayer;
-
 import songplayer.PlayList;
 import model.Song;
-
 
 // This is Rick's version for a separate test that a type exists to queue up songs and
 // play them in FIFO order entirely and without overlapping.  This code needs a Song type
@@ -32,4 +43,4 @@ public class QueueAndPlay3SongsInOrder {
       }
     });
   }
-}
+} // Ends Class QueueAndPlay3SongsInOrder

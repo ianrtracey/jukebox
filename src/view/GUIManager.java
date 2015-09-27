@@ -1,3 +1,21 @@
+/*+----------------------------------------------------------------------
+ ||
+ ||  Class GUIManager
+ ||
+ ||        Purpose:  Manages the UI for a Jukebox window displaying a list
+ ||                  of songs from a SongCollection Object
+ ||
+ ||  Inherits From:  JFrame
+ ||
+ ||     Interfaces:  Subclass SongDisplayList implements TableModel
+ ||
+ |+-----------------------------------------------------------------------
+ ||
+ ||        Methods: public static void main(String[] args)
+ ||                 public GUIManager(SongCollection allSongs)
+ ||					private void setUpGUI(SongCollection songs)
+ ||
+ ++-----------------------------------------------------------------------*/
 package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,12 +38,14 @@ import java.util.Map.Entry;
 
 public class GUIManager extends JFrame {
 	
+	// Main Method to render the GUI
 	public static void main(String[] args) {
 		SongCollection allSongs = new SongCollection();
 		GUIManager GUI = new GUIManager(allSongs);
 		GUI.setVisible(true);
 	} // Ends Main
 			
+	// Class Objects / State
 	private JLabel headerMessage = new JLabel("Select a Song from this Jukebox!!!");
 	private JTable myTable;
 	private SongDisplayList mySongList;
@@ -51,21 +71,44 @@ public class GUIManager extends JFrame {
 		myScrollPane = new JScrollPane(myTable);
 		this.add(myScrollPane);
 	} // Ends Method setUpGUI
-	
 } // Ends Class GUIManager
 
+/*+----------------------------------------------------------------------
+||
+||  Class SongDisplayList
+||
+||        Purpose:	Creates a TableModel interface implementation for use
+||                  with the Jukebox
+||
+||     Interfaces:  Implements TableModel
+||
+|+-----------------------------------------------------------------------
+||
+||        Methods:  public SongDisplayList(SongCollection songs)
+||                  private void setUpList(SongCollection songs)
+||                  public int getRowCount()
+||                  public int getColumnCount()
+||                  public String getColumnName(int colNum)
+||                  public Class<?> getColumnClass(int colNum)
+||					public Object getValueAt(int r, int c)
+||					public void addTableModelListener(TableModelListener arg0)
+||					public boolean isCellEditable(int arg0, int arg1)
+||					public void removeTableModelListener(TableModelListener arg0)
+||					public void setValueAt(Object arg0, int arg1, int arg2)
+++-----------------------------------------------------------------------*/
 class SongDisplayList implements TableModel{
-	
-	private ArrayList<Song> allSongs = new ArrayList<Song>(); // holds the songList in ArrayList Form
+	// Will hold the songList in ArrayList Form
+	private ArrayList<Song> allSongs = new ArrayList<Song>();
 	
 	public SongDisplayList(SongCollection songs) {
-		setUpList(songs);
+		setUpList(songs); // set up the song list
 	} // Ends Constructor
 	
 	private void setUpList(SongCollection songs){
-		HashMap<String, Song> yolo = songs.getSongsMap();
-		Set<Entry<String, Song>> mySet = yolo.entrySet();
+		HashMap<String, Song> yolo = songs.getSongsMap(); // Get the Hash Map
+		Set<Entry<String, Song>> mySet = yolo.entrySet(); // Get the entries
 
+		// For each entry, get the song and append to the songs ArrayList
 		for ( Entry<String, Song> e : mySet){
 			allSongs.add(e.getValue());
 		}
@@ -111,23 +154,20 @@ class SongDisplayList implements TableModel{
 		default: return "ERROR";
 		}
 	} // Ends Method getValueAt
-	
+
 	@Override
 	public void addTableModelListener(TableModelListener arg0) {
 		// TODO Auto-generated method stub
 	}
-
 	@Override
 	public boolean isCellEditable(int arg0, int arg1) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
 	public void removeTableModelListener(TableModelListener arg0) {
 		// TODO Auto-generated method stub
 	}
-
 	@Override
 	public void setValueAt(Object arg0, int arg1, int arg2) {
 		// TODO Auto-generated method stub

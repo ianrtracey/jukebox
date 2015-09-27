@@ -1,15 +1,34 @@
+/*+----------------------------------------------------------------------
+ ||
+ ||  Class Song
+ ||
+ ||        Purpose:  Represents a Song entry into the JukeBox Implementation
+ ||
+ |+-----------------------------------------------------------------------
+ ||
+ ||        Methods: public Song(String name, String artist, String filename, int duration)
+ ||					public int getTimesPlayedToday()
+ ||					public int getDurationOfSong()
+ ||					public String getTitle()
+ ||					public String getArtist()
+ ||					public String getFileName()
+ ||					public void setLastTimePlayed(LocalDate date)
+ ||					public void updateNumOfPlays()
+ ||					public void play()
+ ||					public boolean canPlay()
+ ||
+ ++-----------------------------------------------------------------------*/
 package model;
 import java.time.LocalDate;
 
 public class Song {
 	
-	private int timesPlayedToday = 0;
-	private int durationInSeconds;
-	private LocalDate lastTimePlayed = LocalDate.now();
-	private String myTitle;
-	private String myArtist;
-	private String filename;
-	
+	private int timesPlayedToday = 0;					// How many times played today?
+	private int durationInSeconds;						// How long is the song in seconds?
+	private LocalDate lastTimePlayed = LocalDate.now();	// What was the last time played?
+	private String myTitle;								// What is the song title?
+	private String myArtist;							// Who is the song artist?
+	private String filename;							// What is the song filename?
 	
 	public Song(String name, String artist, String filename, int duration){
 		this.myTitle   = name;
@@ -41,40 +60,31 @@ public class Song {
 	// Used for testing
 	public void setLastTimePlayed(LocalDate date) {
 		this.lastTimePlayed = date;
-	}
+	} // Ends setLastTimePlayed
 	
 	public void updateNumOfPlays() {
-		
 		if( this.lastTimePlayed.equals(LocalDate.now())) {
 			this.timesPlayedToday++;
 		} else {
 			this.lastTimePlayed = LocalDate.now();
 			this.timesPlayedToday = 1;
 		}
-		
-	}
-	
+	} // Ends Method updateNumOfPlays
 	
 	public void play(){
-		
 		if( canPlay() ){
-			
 			updateNumOfPlays();
 			// song do stuff
 		}
 		else{
 			// dont play
 		}
-	} 
+	} // Ends Method play
 	
 	public boolean canPlay() {
 		if ( this.timesPlayedToday < 3 || !this.lastTimePlayed.equals(LocalDate.now())) {
 			return true;
 		} 
-		
 		return false;
-	}
-	
-	
-
-}
+	} // Ends Method canPlay
+} // Ends Class Song

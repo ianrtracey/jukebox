@@ -1,10 +1,28 @@
+/*+----------------------------------------------------------------------
+ ||
+ ||  Class SongCollection
+ ||
+ ||        Purpose:  Represents a collection of Song objects for the
+ ||                  JukeBox implementation
+ ||
+ |+-----------------------------------------------------------------------
+ ||
+ ||        Methods: public SongCollection()
+ ||                 public int getSize()
+ ||					public boolean add(Song song)
+ ||                 public Song getSong(String songName)
+ ||                 public HashMap<String, Song> getSongsMap()
+ ||                 private void populateSongs()
+ ||
+ ++-----------------------------------------------------------------------*/
 package model;
 import java.util.HashMap;
 
 public class SongCollection {
 
-	private HashMap<String, Song> songs = new HashMap<String, Song>(); // Contains all the songs in this jukebox's library
-	
+	// Contains all the songs in this jukebox's library
+	private HashMap<String, Song> songs = new HashMap<String, Song>();
+
 	public SongCollection(){
 		populateSongs();
 	} // Ends Constructor
@@ -28,7 +46,8 @@ public class SongCollection {
 	public HashMap<String, Song> getSongsMap(){
 		return songs;		
 	} // Ends Method getSongsMap
-		
+	
+	// Hard-coding the additions here
 	private void populateSongs(){
 		songs.put("Satisfied/8stops7", new Song("Satisfied", "8stops7", "filename.mp3", 185));
 		songs.put("Stop the Rock (Mint Royale Mix)/Apollo 440", new Song("Stop the Rock (Mint Royale Mix)", "Apollo 440", "filename.mp3", 372));
@@ -52,5 +71,4 @@ public class SongCollection {
 		songs.put("Stompbox/Overseer", new Song("Stompbox", "Overseer", "filename.mp3", 237));
 		songs.put("Turbo Lover/Judas Priest", new Song("Turbo Lover", "Judas Priest", "filename.mp3", 631));
 	} // Ends Method populateSongs
-	
 } // Ends Class SongCollection
