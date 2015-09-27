@@ -1,4 +1,7 @@
-package model;
+package demoSongPlayer;
+
+import model.PlayList;
+import model.Song;
 
 
 // This is Rick's version for a separate test that a type exists to queue up songs and
