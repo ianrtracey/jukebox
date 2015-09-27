@@ -1,9 +1,11 @@
+package tests;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 
 import org.junit.Test;
 
+import model.JukeBox;
 import model.Song;
 import model.SongCollection;
 import model.Student;

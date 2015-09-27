@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class SongCollection {
 
-	HashMap<String, Song> songs = new HashMap<String, Song>(); // Contains all the songs in this jukebox's library
+	private HashMap<String, Song> songs = new HashMap<String, Song>(); // Contains all the songs in this jukebox's library
 	
 	public SongCollection(){
 		populateSongs();
@@ -24,6 +24,10 @@ public class SongCollection {
 	public Song getSong(String songName) {
 		return songs.get(songName);
 	} // Ends Method getSong
+	
+	public HashMap<String, Song> getSongsMap(){
+		return songs;		
+	} // Ends Method getSongsMap
 		
 	private void populateSongs(){
 		songs.put("Satisfied/8stops7", new Song("Satisfied", "8stops7", "filename.mp3", 185));

@@ -1,8 +1,5 @@
+package model;
 import java.util.ArrayDeque;
-
-import model.Song;
-import model.SongCollection;
-import model.StudentCollection;
 
 public class JukeBox {
 	

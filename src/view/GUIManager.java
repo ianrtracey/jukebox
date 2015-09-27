@@ -1,13 +1,18 @@
-package model;
+package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
+import model.Song;
+import model.SongCollection;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -58,10 +63,9 @@ class SongDisplayList implements TableModel{
 	} // Ends Constructor
 	
 	private void setUpList(SongCollection songs){
-		HashMap<String, Song> yolo = songs.songs;
+		HashMap<String, Song> yolo = songs.getSongsMap();
 		Set<Entry<String, Song>> mySet = yolo.entrySet();
 
-		int i = 0;
 		for ( Entry<String, Song> e : mySet){
 			allSongs.add(e.getValue());
 		}
