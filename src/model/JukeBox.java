@@ -48,9 +48,9 @@ public class JukeBox {
 	private SongCollection songCollection;			// Contains all songs in the Jukebox
 	private PlayList playlist;						// Contains the current playlist (queue)
 	
-	public JukeBox(StudentCollection students, SongCollection songs) {
-		this.studentCollection = students;
-		this.songCollection    = songs;
+	public JukeBox() {
+		this.studentCollection = new StudentCollection();
+		this.songCollection    = new SongCollection();
 	} // Ends Constructor
 	
 	private void RunJukeBox(){	
@@ -60,9 +60,9 @@ public class JukeBox {
 		//    keep running till shutdown
 	} // Ends Method RunJukeBox
 	
-	public boolean login(String id, int password) {
+	public boolean login(String id, String password) {
 		if( this.studentCollection.get(id) != null ) { 
-			if( this.studentCollection.get(id).getPassword() == password) {
+			if( this.studentCollection.get(id).getPassword() == Integer.parseInt(password)) {
 				return true;
 			} // Ends password conditional
 		} // Ends userID conditional
