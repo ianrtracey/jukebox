@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.JukeBox;
+import model.SongCollection;
 
 public class GUILogin extends JFrame {
 	
@@ -73,7 +74,7 @@ public class GUILogin extends JFrame {
 			boolean success = jukeBoxModel.login(username, password);
 			
 			if (success)  {
-				JOptionPane.showMessageDialog(null, "Welcome to JukeBox!", "Login Successful", JOptionPane.DEFAULT_OPTION);
+				new GUIManager(new SongCollection()).setVisible(true);
 			} else {
 			JOptionPane.showMessageDialog(null, "username or password incorrect", "Incorrect Login", JOptionPane.ERROR_MESSAGE);
 			}
