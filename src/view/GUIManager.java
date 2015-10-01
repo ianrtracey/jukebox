@@ -19,15 +19,23 @@
 package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
@@ -53,14 +61,22 @@ public class GUIManager extends JFrame {
 			
 	// Class Objects / State
 	private JLabel headerMessage;
+	private JLabel username;
+	private JLabel timeRemaining;
+	private JLabel songsPlayedToday;
+	
 	private JTable myTable;
 	private SongDisplayList mySongList;
 	private JScrollPane myScrollPane;
 	private JButton addToPlayQueueButton;
-	private JScrollPane playQueue;
+	private JScrollPane playQueuePane;
+	private JList<Song> playQueue;
+	private DefaultListModel<Song> playQueueModel;
 	private JukeBox jukeBox = new JukeBox();
+	Student user;
 	
 	public GUIManager(SongCollection allSongs, Student user){
+		this.user = user;
 		setUpGUI(allSongs, user);
 		registerListeners();
 	} // Ends Constructor
@@ -74,21 +90,32 @@ public class GUIManager extends JFrame {
 		
 		this.setLayout(new BorderLayout());
 		// Set up the Header
-		headerMessage= new JLabel("Welcome, " + user.getId());
-		headerMessage.setForeground(Color.BLUE);
-		headerMessage.setFont(new Font("Arial", Font.BOLD, 18));
-		this.add(headerMessage, BorderLayout.NORTH);
+		JPanel userPanel = new JPanel();
+		username = new JLabel("Logged in as " + user.getId());
+		timeRemaining = new JLabel("Minutes: "+ Integer.toString(user.getLifetimeSecondsRemaining() / 60) + " " +
+								   "Seconds: "+ Integer.toString(user.getLifetimeSecondsRemaining() % 60));
+		songsPlayedToday = new JLabel("Songs Played Today: " + Integer.toString(user.getNumOfSongsPlayedToday()));
+		userPanel.add(username);
+		userPanel.add(timeRemaining );
+		userPanel.add(songsPlayedToday);
+		
+		
+		this.add(userPanel, BorderLayout.NORTH);
+
 		
 		// Set up the model, the table, the scrollpane and add it!
 		mySongList = new SongDisplayList(songs);
 		myTable = new JTable(mySongList);
 		myScrollPane = new JScrollPane(myTable);
-		playQueue = new JScrollPane(new JTable( new PlayQueueModel(jukeBox.getPlayList())) );
+
+		playQueueModel = new DefaultListModel<Song>();
+		playQueue = new JList<Song>(playQueueModel);
+		playQueuePane = new JScrollPane(playQueue);
+		this.add(playQueuePane, BorderLayout.WEST);
+		
 		this.add(myScrollPane, BorderLayout.EAST);
-		this.add(playQueue,    BorderLayout.WEST);
 		addToPlayQueueButton = new JButton("Add To Play Queue");
 		this.getContentPane().add(addToPlayQueueButton, BorderLayout.SOUTH);
-//		this.add(addToPlaylist);
 		
 	} // Ends Method setUpGUI
 	
@@ -102,8 +129,18 @@ public class GUIManager extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println( myTable.getSelectedRow() );
-			System.out.println( myTable.getSelectedColumns()[1] );
+			Song songToAddToPlayQueue = mySongList.get(myTable.getSelectedRow());
+			System.out.println(songToAddToPlayQueue);
+			if (user.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
+				user.selectSong(songToAddToPlayQueue);
+				timeRemaining.setText("Minutes: "+ Integer.toString(user.getLifetimeSecondsRemaining() / 60) + " " +
+					   "Seconds: "+ Integer.toString(user.getLifetimeSecondsRemaining() % 60));
+				songsPlayedToday.setText("Songs Played Today: " + Integer.toString(user.getNumOfSongsPlayedToday()));
+				playQueueModel.addElement(songToAddToPlayQueue);
+			} else {
+				JOptionPane.showMessageDialog(null, "You cannot add this song", "Limit Reaced", JOptionPane.ERROR_MESSAGE);
+			}
+
 		}
 		
 	}
@@ -183,6 +220,11 @@ class SongDisplayList implements TableModel{
 		}
 	} // Ends Method getColumnClass
 	
+	public Song get(int row) {
+		
+		return allSongs.get(row);
+	}
+	
 	@Override
 	public Object getValueAt(int r, int c) {
 		Song aSong = allSongs.get(r);
@@ -216,67 +258,44 @@ class SongDisplayList implements TableModel{
 
 
 
-class PlayQueueModel implements TableModel {
+class PlayQueueModel implements ListModel<Song> {
 	
 	private ArrayList<Song> playQueueSongs;
+	int size = 0;
 	
-	public PlayQueueModel(ArrayList<Song> playQueueSongs) {
-		
-		this.playQueueSongs = playQueueSongs;
+	public PlayQueueModel() { this.playQueueSongs = new ArrayList<Song>(); }
+	
+	public void addElement(Song song) { 
+		this.playQueueSongs.add(song); 
+		this.size++;
 	}
 
 	@Override
-	public int getRowCount() {
+	public int getSize() {
 		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public String getColumnName(int columnIndex) {
+	public Song getElementAt(int index) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+	public void addListDataListener(ListDataListener l) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void addTableModelListener(TableModelListener l) {
+	public void removeListDataListener(ListDataListener l) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
-	@Override
-	public void removeTableModelListener(TableModelListener l) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 }
