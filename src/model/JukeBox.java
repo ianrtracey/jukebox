@@ -41,6 +41,7 @@
  ++-----------------------------------------------------------------------*/
 package model;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class JukeBox {
 	
@@ -78,6 +79,16 @@ public class JukeBox {
 	public StudentCollection getStudentCollection() {
 		return studentCollection;
 	} // Ends Method getStudentCollection
+	
+	public PlayList getPlaylist() {
+		return this.playlist;
+	}
+	
+	public ArrayList<Song> getPlayList() {
+		ArrayList<Song> songs = new ArrayList<Song>();
+		songs.add(new Song("1","1","1",9));
+		return songs;
+	}
 	
 	public SongCollection getSongCollection() {
 		return songCollection;

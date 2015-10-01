@@ -1,8 +1,10 @@
 package model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import model.*;
 import songplayer.EndOfSongEvent;
@@ -37,6 +39,17 @@ public class PlayList {
 	public Song dequeueSong() {
 		size--;
 		return this.playQueue.pollLast();
+	}
+	
+	public ArrayList<Song> getPlayQueue() {
+		ArrayList<Song> playQueueSongs = new ArrayList<Song>();
+//		if ( !playQueue.isEmpty() ) {
+//			for(Iterator itr = playQueue.iterator(); itr.hasNext(); ) {
+//				playQueueSongs.add((Song)itr.next());
+//			}
+//		}
+		playQueueSongs.add(new Song("test", "test", "test.mp3", 40));
+		return playQueueSongs;
 	}
 	
 	public int getSize() {

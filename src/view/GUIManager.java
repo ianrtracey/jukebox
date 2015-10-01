@@ -20,7 +20,10 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -28,8 +31,11 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import model.JukeBox;
+import model.PlayList;
 import model.Song;
 import model.SongCollection;
+import model.Student;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,37 +46,69 @@ public class GUIManager extends JFrame {
 	
 	// Main Method to render the GUI
 	public static void main(String[] args) {
-		SongCollection allSongs = new SongCollection();
-		GUIManager GUI = new GUIManager(allSongs);
-		GUI.setVisible(true);
+//		SongCollection allSongs = new SongCollection();
+//		GUIManager GUI = new GUIManager(allSongs);
+//		GUI.setVisible(true);
 	} // Ends Main
 			
 	// Class Objects / State
-	private JLabel headerMessage = new JLabel("Select a Song from this Jukebox!!!");
+	private JLabel headerMessage;
 	private JTable myTable;
 	private SongDisplayList mySongList;
 	private JScrollPane myScrollPane;
+	private JButton addToPlayQueueButton;
+	private JScrollPane playQueue;
+	private JukeBox jukeBox = new JukeBox();
 	
-	public GUIManager(SongCollection allSongs){	
-		setUpGUI(allSongs);
+	public GUIManager(SongCollection allSongs, Student user){
+		setUpGUI(allSongs, user);
+		registerListeners();
 	} // Ends Constructor
 		
-	private void setUpGUI(SongCollection songs){
+	private void setUpGUI(SongCollection songs, Student user){
 		// Set Window Sizes
 		this.setSize(600, 540);
 		this.setLocation(120, 60);
 		// Set Closing Process
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.setLayout(new BorderLayout());
 		// Set up the Header
+		headerMessage= new JLabel("Welcome, " + user.getId());
 		headerMessage.setForeground(Color.BLUE);
 		headerMessage.setFont(new Font("Arial", Font.BOLD, 18));
 		this.add(headerMessage, BorderLayout.NORTH);
+		
 		// Set up the model, the table, the scrollpane and add it!
 		mySongList = new SongDisplayList(songs);
 		myTable = new JTable(mySongList);
 		myScrollPane = new JScrollPane(myTable);
-		this.add(myScrollPane);
+		playQueue = new JScrollPane(new JTable( new PlayQueueModel(jukeBox.getPlayList())) );
+		this.add(myScrollPane, BorderLayout.EAST);
+		this.add(playQueue,    BorderLayout.WEST);
+		addToPlayQueueButton = new JButton("Add To Play Queue");
+		this.getContentPane().add(addToPlayQueueButton, BorderLayout.SOUTH);
+//		this.add(addToPlaylist);
+		
 	} // Ends Method setUpGUI
+	
+	private void registerListeners() {
+		
+		addToPlayQueueButton.addActionListener(new AddToPlayQueueButtonListener());
+		
+	}
+	
+	private class AddToPlayQueueButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println( myTable.getSelectedRow() );
+			System.out.println( myTable.getSelectedColumns()[1] );
+		}
+		
+	}
+	
+	
 } // Ends Class GUIManager
 
 /*+----------------------------------------------------------------------
@@ -113,6 +151,7 @@ class SongDisplayList implements TableModel{
 			allSongs.add(e.getValue());
 		}
 	} // Ends Method setUpTable
+	
 	
 	@Override
 	public int getRowCount() {
@@ -173,3 +212,71 @@ class SongDisplayList implements TableModel{
 		// TODO Auto-generated method stub
 	}
 } // Ends Class SongDisplayList
+
+
+
+
+class PlayQueueModel implements TableModel {
+	
+	private ArrayList<Song> playQueueSongs;
+	
+	public PlayQueueModel(ArrayList<Song> playQueueSongs) {
+		
+		this.playQueueSongs = playQueueSongs;
+	}
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getColumnName(int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addTableModelListener(TableModelListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeTableModelListener(TableModelListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
