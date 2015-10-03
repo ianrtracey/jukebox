@@ -31,9 +31,13 @@ public class QueueAndPlay3SongsInOrder {
       public void run() {
         PlayList playList = new PlayList();
 
+     
         Song a = (new Song("Space Music", "Sun Microsytems", baseDir + "spacemusic.au", 7) );
         Song b = (new Song("Flute", "Sun Microsytems", baseDir + "flute.aif", 50));
         Song c = (new Song("tada", "Mercer", baseDir + "tada.wav", 2));
+        
+        //a = new Song("Living in the Sunlight", "Tiny Tim", baseDir + "tinyTim.wav", 2);
+        a = new Song("Fresh Prince Theme", "Will Smith", baseDir + "freshPrince.wav", 2);
       
         // Play 3 songs in FIFO order
         playList.queueSong(a);

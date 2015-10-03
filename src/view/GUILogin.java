@@ -85,6 +85,6 @@ public class GUILogin extends JFrame {
 		}
 		
 
-	}
+	} // Ends Private SubClass LoginButtonListener
 
 }

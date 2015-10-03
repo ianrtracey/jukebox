@@ -1,4 +1,8 @@
 package view;
+import model.JukeBox;
+import model.SongCollection;
+import model.Student;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,6 +31,8 @@ import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -34,12 +40,8 @@ import java.util.Map.Entry;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+
+
 
 
 
@@ -49,6 +51,16 @@ public class NewGUIManager extends JFrame {
 		NewGUIManager TEMPGUI = new NewGUIManager();
 		TEMPGUI.setVisible(true);
 	}
+	
+	//**********************************|
+	// ---    OBJECT DECLARATIONS    ---|
+	//**********************************|	
+	private JukeBox myJukeBox = new JukeBox();
+	
+	
+	
+	
+	
 	
 	//**********************************|
 	// --- UI COMPONENT DECLARATIONS ---|
@@ -77,9 +89,11 @@ public class NewGUIManager extends JFrame {
 	private JLabel      songsPlayedToday;
 	
 	boolean userIsLoggedIn;
+	Student loggedInStudent;
 	
 	public NewGUIManager(){
 		this.layoutGUI();
+		this.registerListeners();
 	}
 	
 	public void layoutGUI(){
@@ -118,9 +132,9 @@ public class NewGUIManager extends JFrame {
 		
 		// Settings for user info / exit
 		userInfoSubPanel = new JPanel(new GridLayout(3, 1));
-		loggedInAsAndWelcome = new JLabel("<TEMP> Logged In As <NAME>. Welcome!");
-		timeRemaining = new JLabel("<TEMP> Your Remaining Minutes = X");
-		songsPlayedToday = new JLabel("<TEMP> Songs Played Today = X");
+		loggedInAsAndWelcome = new JLabel("   No Student currently logged in");
+		timeRemaining = new JLabel("   1500 free minutes per student!");
+		songsPlayedToday = new JLabel("   Student can play 3 songs a day!");
 		userInfoSubPanel.add(loggedInAsAndWelcome);
 		userInfoSubPanel.add(timeRemaining);
 		userInfoSubPanel.add(songsPlayedToday);
@@ -142,14 +156,56 @@ public class NewGUIManager extends JFrame {
 	
 	public void registerListeners(){
 		
+		loginLogout.addActionListener( new LoginButtonListener() );
 		
 		
-	}
+	} // Ends Method registerListeners
 	
 	
 	
 	
 	
+	private class LoginButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String username  = usernameField.getText();
+			String password  = passwordField.getText();
+			usernameField.setText("");
+			passwordField.setText("");
+			
+			boolean success = myJukeBox.login(username, password);
+			
+			if (success)  {
+				loggedInStudent = myJukeBox.getStudentCollection().get(username);
+				
+				int secsTemp = loggedInStudent.getLifetimeSecondsRemaining();
+				int minsTemp = secsTemp / 60;
+				secsTemp = secsTemp % 60;
+				
+				loggedInAsAndWelcome.setText("   Welcome to the Jukebox " + username + "!!!");
+				
+				timeRemaining.setText("   Your Time Remaining: " + minsTemp + " Minutes, " + secsTemp + " Seconds");
+				
+				int songPlaysTemp = 3 - loggedInStudent.getNumOfSongsPlayedToday();
+				
+				songsPlayedToday.setText("   You can play " + songPlaysTemp + " more songs today" );
+	
+				//new GUIManager(new SongCollection(), loggedInStudent).setVisible(true);
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "username or password incorrect", "Incorrect Login", JOptionPane.ERROR_MESSAGE);
+				loggedInStudent = null;
+				loggedInAsAndWelcome.setText  ("   No Student currently logged in");
+				timeRemaining.setText         ("   1500 free minutes per student!");
+				songsPlayedToday.setText      ("   Student can play 3 songs a day!");
+			}
+			
+		}
+		
+
+	} // Ends Private SubClass LoginButtonListener
+
 	
 	
 	
@@ -159,4 +215,4 @@ public class NewGUIManager extends JFrame {
 	
 	
 
-}
+} // Ends Class NewGUIManager
