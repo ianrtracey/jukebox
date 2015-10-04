@@ -37,7 +37,6 @@ public class PlayList {
 	}
 	
 	public Song dequeueSong() {
-		size--;
 		return this.playQueue.pollLast();
 	}
 	
@@ -56,7 +55,7 @@ public class PlayList {
 	}
 	
 	public void play() {
-		
+		size--;
 		SongPlayer.playFile(waiter, dequeueSong().getFileName());
 	}
 	

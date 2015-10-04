@@ -73,9 +73,9 @@ public class NewGUIManager extends JFrame {
 	private JScrollPane 	queuedSongs;
 	private JScrollPane 	allSongs;
 	private SongDisplayList mySongList;
-	private DefaultListModel<Song> playQueueModel;
+	private DefaultListModel<String> playQueueModel;
 	
-	private JList<Song>		playQueue;
+	private JList<String>	playQueue;
 	private JTable          allSongsTable;
 	
 	private JPanel   		midPanelWithUserLoginAndQueueSong;
@@ -112,8 +112,8 @@ public class NewGUIManager extends JFrame {
 		
 		// Settings for song lists panel
 		
-		playQueueModel = new DefaultListModel<Song>();
-		playQueue = new JList<Song>(playQueueModel);
+		playQueueModel = new DefaultListModel<String>();
+		playQueue = new JList<String>(playQueueModel);
 		queuedSongs = new JScrollPane(playQueue);
 		queuedSongs.setPreferredSize(new Dimension(360, 300));
 		mySongList = new SongDisplayList(myJukeBox.getSongCollection());
@@ -239,15 +239,24 @@ public class NewGUIManager extends JFrame {
 				return;
 			}
 			
-		
+			
 			Song songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
+			System.out.println(songToAddToPlayQueue);
+
 			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
 				loggedInStudent.selectSong(songToAddToPlayQueue);
+				playQueueModel.addElement(songToAddToPlayQueue.toString());
+				myJukeBox.queue(songToAddToPlayQueue);
+				System.out.println(myJukeBox.getPlaylist().getSize());
+				if(playQueueModel.getSize() == 1){
+ 					System.out.println("Playlist empty");
+					myJukeBox.getPlaylist().play();
+				}
+				
 				timeRemaining.setText("Minutes: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() / 60) + " " +
 					   "Seconds: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() % 60));
 				songsPlayedToday.setText("Songs Played Today: " + Integer.toString(loggedInStudent.getNumOfSongsPlayedToday()));
-				myJukeBox.queue(songToAddToPlayQueue);
-				myJukeBox.getPlaylist().play();
+
 			} else {
 				JOptionPane.showMessageDialog(null, "You cannot add this song", "Limit Reaced", JOptionPane.ERROR_MESSAGE);
 			}

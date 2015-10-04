@@ -136,5 +136,18 @@ public class JukeBoxTest {
 		assertTrue(jukebox.login("Chri", "1"));
 		
 	}
+	
+	@Test
+	public void testJukeBoxSize() {
+		JukeBox jukebox = new JukeBox();
+		assertTrue(jukebox.getPlaylist().getSize() == 0);
+		jukebox.queue( new Song("test","tst","flute.aif",12) );
+		assertTrue(jukebox.getPlaylist().getSize() == 1);
+		jukebox.queue( new Song("test","tst","flute.aif",12));
+		assertTrue(jukebox.getPlaylist().getSize() == 2);
+		jukebox.getPlaylist().play();
+		assertTrue(jukebox.getPlaylist().getSize() == 0);
+				
+	}
 
 }
