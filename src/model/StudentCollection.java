@@ -47,9 +47,6 @@ public class StudentCollection {
  		this.add( new Student("Devon", 22) );
  		this.add( new Student("River", 333) );
 		this.add( new Student("Ryan",  4444) );
-		// --- EASTER EGGS --- //
-		this.add( new Student("Steven",  24) );
-		this.add( new Student("Poulios",  516) );
 		
 		
 	} // Ends Method populateStudents

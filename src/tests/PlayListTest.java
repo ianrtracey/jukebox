@@ -16,11 +16,9 @@ public class PlayListTest {
 		playlist.queueSong(new Song("test1", "artist1", PlayList.baseDir + "SwingCheese.mp3", 90));
 		playlist.queueSong(new Song("test1", "artist1", PlayList.baseDir + "UntameableFire.mp3", 90));
 		assertTrue( playlist.getSize() == 3 );
-		playlist.dequeueSong();
-		assertTrue (playlist.getSize() == 2);
 		playlist.play();
 		playlist.play();
-		assertEquals(0, playlist.getSize());
+		assertEquals(1, playlist.getSize());
 	}
 
 }

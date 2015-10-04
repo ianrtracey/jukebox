@@ -71,6 +71,10 @@ public class Song {
 		}
 	} // Ends Method updateNumOfPlays
 	
+	public String toString() {
+		return "\""+this.getTitle()+"\""+" by "+this.getArtist();
+	}
+	
 	public void play(){
 		if( canPlay() ){
 			updateNumOfPlays();
