@@ -138,7 +138,7 @@ public class NewGUIManager extends JFrame {
 		midPanelWithUserLoginAndQueueSong.add(passwordLabel);
 		midPanelWithUserLoginAndQueueSong.add(passwordField);
 		midPanelWithUserLoginAndQueueSong.add(loginLogout);
-		midPanelWithUserLoginAndQueueSong.add(new JLabel("                             "));
+		midPanelWithUserLoginAndQueueSong.add(new JLabel("                                                                     "));
 		midPanelWithUserLoginAndQueueSong.add(queueSong);
 		
 		// Settings for user info / exit
@@ -239,8 +239,12 @@ public class NewGUIManager extends JFrame {
 				return;
 			}
 			
-		
-			Song songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
+			// The try catch handles the user not selecting a song, usually on first login
+			Song songToAddToPlayQueue;
+			try{
+			songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
+			}catch(Exception ex) {return;}
+			
 			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
 				loggedInStudent.selectSong(songToAddToPlayQueue);
 				timeRemaining.setText("Minutes: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() / 60) + " " +
