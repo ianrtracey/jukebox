@@ -43,12 +43,11 @@ public class PlayList {
 	
 	public ArrayList<Song> getPlayQueue() {
 		ArrayList<Song> playQueueSongs = new ArrayList<Song>();
-//		if ( !playQueue.isEmpty() ) {
-//			for(Iterator itr = playQueue.iterator(); itr.hasNext(); ) {
-//				playQueueSongs.add((Song)itr.next());
-//			}
-//		}
-		playQueueSongs.add(new Song("test", "test", "test.mp3", 40));
+		if ( !playQueue.isEmpty() ) {
+			for(Iterator itr = playQueue.iterator(); itr.hasNext(); ) {
+				playQueueSongs.add((Song)itr.next());
+			}
+		}
 		return playQueueSongs;
 	}
 	
@@ -62,12 +61,6 @@ public class PlayList {
 	}
 	
 
-
-//    SongPlayer.playFile(waiter, baseDir + "tada.wav");
-//
-//    SongPlayer.playFile(waiter, baseDir + "SwingCheese.mp3");
-
-	// Singleton
 
 	  /**
 	   * An inner class that allows an instance of this to receive a

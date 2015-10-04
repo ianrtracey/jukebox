@@ -1,5 +1,6 @@
 package view;
 import model.JukeBox;
+import model.Song;
 import model.SongCollection;
 import model.Student;
 
@@ -66,27 +67,32 @@ public class NewGUIManager extends JFrame {
 	// --- UI COMPONENT DECLARATIONS ---|
 	//**********************************|
 	
-	private JPanel rootPanel;
+	private JPanel 			rootPanel;
 		
-	private JPanel   topPanelWithThe2SongLists;
-	private JScrollPane queuedSongs;
-	private JScrollPane allSongs;
+	private JPanel   		topPanelWithThe2SongLists;
+	private JScrollPane 	queuedSongs;
+	private JScrollPane 	allSongs;
+	private SongDisplayList mySongList;
+	private DefaultListModel<Song> playQueueModel;
 	
-	private JPanel   midPanelWithUserLoginAndQueueSong;
-	private JLabel      usernameLabel;
-	private JTextField  usernameField;
-	private JLabel      passwordLabel;
-	private JTextField  passwordField;
-	private JButton     queueSong;	
+	private JList<Song>		playQueue;
+	private JTable          allSongsTable;
 	
-	private JPanel   bottomPanelWithUserInfoAndExitProgram;
-	private JPanel      userInfoSubPanel;
-	private JPanel      exitProgramSubPanel;
-	private JButton     loginLogout;
-	private JButton     exitProgram;
-	private JLabel      loggedInAsAndWelcome;
-	private JLabel      timeRemaining;
-	private JLabel      songsPlayedToday;
+	private JPanel   		midPanelWithUserLoginAndQueueSong;
+	private JLabel      	usernameLabel;
+	private JTextField  	usernameField;
+	private JLabel      	passwordLabel;
+	private JTextField  	passwordField;
+	private JButton     	queueSong;	
+	
+	private JPanel   		bottomPanelWithUserInfoAndExitProgram;
+	private JPanel      	userInfoSubPanel;
+	private JPanel      	exitProgramSubPanel;
+	private JButton    		loginLogout;
+	private JButton    	 	exitProgram;
+	private JLabel     	 	loggedInAsAndWelcome;
+	private JLabel     	 	timeRemaining;
+	private JLabel     	 	songsPlayedToday;
 	
 	boolean userIsLoggedIn;
 	Student loggedInStudent;
@@ -99,19 +105,24 @@ public class NewGUIManager extends JFrame {
 	public void layoutGUI(){
 		
 		// Basic settings for entire JFrame
-		this.setSize(600, 420);
+		this.setSize(720, 420);
 		this.setLocation(300, 100);
 		this.setTitle("Super Turbo Jukebox 4 !!!");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// Settings for song lists panel
-		queuedSongs = new JScrollPane();
-		queuedSongs.setPreferredSize(new Dimension(300, 300));
-		allSongs = new JScrollPane();
-		allSongs.setPreferredSize(new Dimension(300, 300));
-		topPanelWithThe2SongLists = new JPanel(new BorderLayout());
-		topPanelWithThe2SongLists.add(queuedSongs, BorderLayout.WEST);
-		topPanelWithThe2SongLists.add(allSongs, BorderLayout.EAST);
+		
+		playQueueModel = new DefaultListModel<Song>();
+		playQueue = new JList<Song>(playQueueModel);
+		queuedSongs = new JScrollPane(playQueue);
+		queuedSongs.setPreferredSize(new Dimension(360, 300));
+		mySongList = new SongDisplayList(myJukeBox.getSongCollection());
+		allSongsTable = new JTable(mySongList);
+		allSongs = new JScrollPane(allSongsTable);
+		allSongs.setPreferredSize(new Dimension(360, 300));
+		topPanelWithThe2SongLists = new JPanel(new GridLayout(1, 2));
+		topPanelWithThe2SongLists.add(queuedSongs);
+		topPanelWithThe2SongLists.add(allSongs);
 				
 		// Settings for the user login panel
 		usernameLabel = new JLabel("User name");
@@ -157,18 +168,26 @@ public class NewGUIManager extends JFrame {
 	public void registerListeners(){
 		
 		loginLogout.addActionListener( new LoginButtonListener() );
-		
+		exitProgram.addActionListener(new TempExitButtonListener());
+		queueSong.addActionListener(new AddToPlayQueueButtonListener());
 		
 	} // Ends Method registerListeners
-	
-	
-	
-	
-	
+		
 	private class LoginButtonListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+			if(loginLogout.getText().equals("Logout")){
+				loggedInStudent = null;
+				loginLogout.setText("Login");
+				loggedInAsAndWelcome.setText("   No Student currently logged in");
+				timeRemaining.setText("   1500 free minutes per student!");
+				songsPlayedToday.setText("   Student can play 3 songs a day!");
+				return;
+			}
+			
+			
+			
 			String username  = usernameField.getText();
 			String password  = passwordField.getText();
 			usernameField.setText("");
@@ -191,7 +210,7 @@ public class NewGUIManager extends JFrame {
 				
 				songsPlayedToday.setText("   You can play " + songPlaysTemp + " more songs today" );
 	
-				//new GUIManager(new SongCollection(), loggedInStudent).setVisible(true);
+				loginLogout.setText("Logout");
 				
 			} else {
 				JOptionPane.showMessageDialog(null, "username or password incorrect", "Incorrect Login", JOptionPane.ERROR_MESSAGE);
@@ -200,19 +219,152 @@ public class NewGUIManager extends JFrame {
 				timeRemaining.setText         ("   1500 free minutes per student!");
 				songsPlayedToday.setText      ("   Student can play 3 songs a day!");
 			}
-			
 		}
-		
-
 	} // Ends Private SubClass LoginButtonListener
 
+	private class TempExitButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			System.exit(0);
+		}
+	} // Ends Private SubClass TempExitButtonListener
 	
-	
-	
-	
-	
-	
+	private class AddToPlayQueueButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			if(loggedInStudent == null){
+				JOptionPane.showMessageDialog(null, "User Not Logged In!", "User Not Logged In!", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+		
+			Song songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
+			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
+				loggedInStudent.selectSong(songToAddToPlayQueue);
+				timeRemaining.setText("Minutes: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() / 60) + " " +
+					   "Seconds: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() % 60));
+				songsPlayedToday.setText("Songs Played Today: " + Integer.toString(loggedInStudent.getNumOfSongsPlayedToday()));
+				myJukeBox.queue(songToAddToPlayQueue);
+				myJukeBox.getPlaylist().play();
+			} else {
+				JOptionPane.showMessageDialog(null, "You cannot add this song", "Limit Reaced", JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
+		
+	}
+		
 	
 	
 
 } // Ends Class NewGUIManager
+
+/*+----------------------------------------------------------------------
+||
+||  Class SongDisplayList
+||
+||        Purpose:	Creates a TableModel interface implementation for use
+||                  with the Jukebox
+||
+||     Interfaces:  Implements TableModel
+||
+|+-----------------------------------------------------------------------
+||
+||        Methods:  public SongDisplayList(SongCollection songs)
+||                  private void setUpList(SongCollection songs)
+||                  public int getRowCount()
+||                  public int getColumnCount()
+||                  public String getColumnName(int colNum)
+||                  public Class<?> getColumnClass(int colNum)
+||					public Object getValueAt(int r, int c)
+||					public void addTableModelListener(TableModelListener arg0)
+||					public boolean isCellEditable(int arg0, int arg1)
+||					public void removeTableModelListener(TableModelListener arg0)
+||					public void setValueAt(Object arg0, int arg1, int arg2)
+++-----------------------------------------------------------------------*/
+class SongDisplayList implements TableModel{
+	// Will hold the songList in ArrayList Form
+	private ArrayList<Song> allSongs = new ArrayList<Song>();
+	
+	public SongDisplayList(SongCollection songs) {
+		setUpList(songs); // set up the song list
+	} // Ends Constructor
+	
+	private void setUpList(SongCollection songs){
+		HashMap<String, Song> yolo = songs.getSongsMap(); // Get the Hash Map
+		Set<Entry<String, Song>> mySet = yolo.entrySet(); // Get the entries
+
+		// For each entry, get the song and append to the songs ArrayList
+		for ( Entry<String, Song> e : mySet){
+			allSongs.add(e.getValue());
+		}
+	} // Ends Method setUpTable
+	
+	
+	@Override
+	public int getRowCount() {
+		return allSongs.size();
+	} // Ends Method getRowCount
+	
+	@Override
+	public int getColumnCount() {
+		return 3;
+	} // Ends Method getColumnCount
+	
+	@Override
+	public String getColumnName(int colNum) {
+		switch(colNum){
+		case 0:	return "Artist";
+		case 1: return "Title";
+		case 2: return "Seconds";
+		default: return "ERROR";
+		}
+	} // Ends Method getColumnName
+	
+	@Override
+	public Class<?> getColumnClass(int colNum) {
+		switch(colNum){
+		case 0:	return String.class;
+		case 1: return String.class;
+		case 2: return Integer.class;
+		default: return Object.class;
+		}
+	} // Ends Method getColumnClass
+	
+	public Song get(int row) {
+		
+		return allSongs.get(row);
+	}
+	
+	@Override
+	public Object getValueAt(int r, int c) {
+		Song aSong = allSongs.get(r);
+		switch(c){
+		case 0:	return aSong.getArtist();
+		case 1: return aSong.getTitle();
+		case 2: return aSong.getDurationOfSong();
+		default: return "ERROR";
+		}
+	} // Ends Method getValueAt
+
+	@Override
+	public void addTableModelListener(TableModelListener arg0) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public boolean isCellEditable(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void removeTableModelListener(TableModelListener arg0) {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void setValueAt(Object arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+	}
+} // Ends Class SongDisplayList
+

@@ -148,6 +148,9 @@ public class GUIManager extends JFrame {
 	
 } // Ends Class GUIManager
 
+
+
+
 /*+----------------------------------------------------------------------
 ||
 ||  Class SongDisplayList
@@ -171,6 +174,8 @@ public class GUIManager extends JFrame {
 ||					public void removeTableModelListener(TableModelListener arg0)
 ||					public void setValueAt(Object arg0, int arg1, int arg2)
 ++-----------------------------------------------------------------------*/
+
+/*
 class SongDisplayList implements TableModel{
 	// Will hold the songList in ArrayList Form
 	private ArrayList<Song> allSongs = new ArrayList<Song>();
@@ -299,3 +304,5 @@ class PlayQueueModel implements ListModel<Song> {
 
 	
 }
+
+*/

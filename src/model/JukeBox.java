@@ -52,6 +52,7 @@ public class JukeBox {
 	public JukeBox() {
 		this.studentCollection = new StudentCollection();
 		this.songCollection    = new SongCollection();
+		this.playlist = new PlayList();
 	} // Ends Constructor
 	
 	private void RunJukeBox(){	

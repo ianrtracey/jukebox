@@ -58,10 +58,10 @@ public class SongCollection {
         songs.put("Flute/Sun Microsytems", new Song("Flute", "Sun Microsytems", baseDir + "flute.aif", 50));
         songs.put("tada/Mercer" , new Song("tada", "Mercer", baseDir + "tada.wav", 2));
 		
-        songs.put("Fresh Prince Theme/Will Smith" , new Song("Fresh Prince Theme", "Will Smith", baseDir + "freshPrince.wav", 2));
-        songs.put("The Riviera Affair/Neil Richardson" , new Song("The Riviera Affair", "Neil Richardson", baseDir + "RivieraAffair.wav", 2));
-        songs.put("Living in the Sunlight/Tiny Tim" , new Song("Living in the Sunlight", "Tiny Tim", baseDir + "tinyTim.wav", 2));
-        songs.put("Mr. Wilson Rap/Game Grumps" , new Song("Mr. Wilson Rap", "Game Grumps", baseDir + "mrWilsonRap.wav", 2));
+        songs.put("Fresh Prince Theme/Will Smith" , new Song("Fresh Prince Theme", "Will Smith", baseDir + "freshPrince.wav", 73));
+        songs.put("The Riviera Affair/Neil Richardson" , new Song("The Riviera Affair", "Neil Richardson", baseDir + "RivieraAffair.wav", 41));
+        songs.put("Living in the Sunlight/Tiny Tim" , new Song("Living in the Sunlight", "Tiny Tim", baseDir + "tinyTim.wav", 18));
+        songs.put("Mr. Wilson Rap/Game Grumps" , new Song("Mr. Wilson Rap", "Game Grumps", baseDir + "mrWilsonRap.wav", 14));
         
 	} // Ends Method populateSongs
 } // Ends Class SongCollection

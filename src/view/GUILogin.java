@@ -1,3 +1,5 @@
+/*
+
 package view;
 
 import java.awt.FlowLayout;
@@ -88,3 +90,6 @@ public class GUILogin extends JFrame {
 	} // Ends Private SubClass LoginButtonListener
 
 }
+
+
+*/
