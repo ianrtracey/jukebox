@@ -16,7 +16,10 @@
  ||					private void setUpGUI(SongCollection songs)
  ||
  ++-----------------------------------------------------------------------*/
-package view;
+
+/*
+
+package OldArchive;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -44,6 +47,7 @@ import model.PlayList;
 import model.Song;
 import model.SongCollection;
 import model.Student;
+import view.SongDisplayList;
 
 import java.util.ArrayList;
 import java.util.HashMap;

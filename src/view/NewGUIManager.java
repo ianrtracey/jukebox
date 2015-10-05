@@ -148,9 +148,6 @@ public class NewGUIManager extends JFrame {
 		midPanelWithUserLoginAndQueueSong.add(queueSongButton);
 		playButton = new JButton("Play");
 		midPanelWithUserLoginAndQueueSong.add(playButton);
-
-
-		
 		
 		// Settings for user info / exit
 		userInfoSubPanel = new JPanel(new GridLayout(3, 1));
@@ -249,9 +246,15 @@ public class NewGUIManager extends JFrame {
 				return;
 			}
 			
+
+			// The try catch handles the user not selecting a song, usually on first login
+			Song songToAddToPlayQueue;
+			try{
+			songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
+			}catch(Exception ex) {return;}
 			
-			Song songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
-			System.out.println(songToAddToPlayQueue);
+
+
 
 			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
 				if (songToAddToPlayQueue.canPlay()) {
