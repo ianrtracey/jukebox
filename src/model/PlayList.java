@@ -25,7 +25,6 @@ public class PlayList implements Serializable {
 	
 	public PlayList() {
 		playQueue = new ArrayDeque<Song>();
-//	    waiter	  = new ObjectWaitingForSongToEnd(this);
 		size = 0;
 	}
 	

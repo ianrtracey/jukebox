@@ -170,6 +170,10 @@ public class NewGUIManager extends JFrame {
 		
 	} // Ends Method LayoutGUI
 	
+	public JukeBox getJukeBox() {
+		return myJukeBox;
+	}
+	
 	public void registerListeners(){
 		
 		loginLogout.addActionListener( new LoginButtonListener() );

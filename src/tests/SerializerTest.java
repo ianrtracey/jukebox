@@ -17,7 +17,6 @@ public class SerializerTest {
 		SongCollection songCollection = new SongCollection();
 		StudentCollection studentCollection =  new StudentCollection();
 		PlayList playQueue = new PlayList();
-		playQueue.queueSong(new Song ("test", "test", "test.wav", 90));
 		assertTrue( Serializer.serializeSongCollection(songCollection) );
 		assertTrue( Serializer.serializeStudentCollection(studentCollection) );
 		assertTrue( Serializer.serializePlayQueue(playQueue) );
@@ -32,9 +31,12 @@ public class SerializerTest {
 		
 		assertEquals (4, studentCollection.getSize() );
 		assertEquals (7, songCollection.getSize() );
-		assertEquals (1, playQueue.getSize() );
-		
+		assertEquals (0, playQueue.getSize() );
+	
 		assertEquals(1, studentCollection.get("Chris").getPassword());
+		
+		
+		
 	}
 
 }
