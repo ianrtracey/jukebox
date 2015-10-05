@@ -45,7 +45,7 @@ import java.util.Map.Entry;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NewGUIManager extends JFrame {
+public class GUIManager extends JFrame {
 	
 	
 	
@@ -95,7 +95,7 @@ public class NewGUIManager extends JFrame {
 	boolean userIsLoggedIn;
 	Student loggedInStudent;
 	
-	public NewGUIManager(){
+	public GUIManager(){
 		this.layoutGUI();
 		this.registerListeners();
 	}
@@ -178,6 +178,7 @@ public class NewGUIManager extends JFrame {
 		ObjectWaitingForSongToEnd waiter = new ObjectWaitingForSongToEnd(myJukeBox.getPlaylist());
 		waiter.registerJList(playQueueModel);
 		myJukeBox.getPlaylist().registerWaiter(waiter);
+		waiter.registerPlayButton(playButton);
 		
 	} // Ends Method registerListeners
 		
@@ -193,8 +194,6 @@ public class NewGUIManager extends JFrame {
 				songsPlayedToday.setText("   Student can play 3 songs a day!");
 				return;
 			}
-			
-			
 			
 			String username  = usernameField.getText();
 			String password  = passwordField.getText();
@@ -283,10 +282,17 @@ public class NewGUIManager extends JFrame {
 	
 	private class PlayJukeBoxButtonListener implements ActionListener {
 
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			if(myJukeBox.getPlaylist().getSize()==0){return;}
+			
+			playButton.setEnabled(false);
+			
 			myJukeBox.getPlaylist().play();
+			
+			
 			
 		}
 		

@@ -1,9 +1,9 @@
-import view.NewGUIManager;
+import view.GUIManager;
 
 public class RunJukeBox {
 	
 	public static void main(String[] args) {
-		NewGUIManager TEMPGUI = new NewGUIManager();
+		GUIManager TEMPGUI = new GUIManager();
 		TEMPGUI.setVisible(true);
 	}
 
