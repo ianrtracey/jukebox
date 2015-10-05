@@ -16,9 +16,10 @@
  ||
  ++-----------------------------------------------------------------------*/
 package model;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class SongCollection {
+public class SongCollection implements Serializable {
 
 	// Contains all the songs in this jukebox's library
 	private HashMap<String, Song> songs = new HashMap<String, Song>();
@@ -64,4 +65,10 @@ public class SongCollection {
         songs.put("Mr. Wilson Rap/Game Grumps" , new Song("Mr. Wilson Rap", "Game Grumps", baseDir + "mrWilsonRap.wav", 14));
         
 	} // Ends Method populateSongs
+	
+	public String toString() {
+		return new String(" Songs : "+ this.songs.toString() +
+				" Data : hello, where");
+		
+	}
 } // Ends Class SongCollection

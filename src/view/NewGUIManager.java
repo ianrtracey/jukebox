@@ -1,5 +1,6 @@
 package view;
 import model.JukeBox;
+import model.Serializer;
 import model.Song;
 import model.SongCollection;
 import model.Student;
@@ -13,6 +14,8 @@ import java.awt.GridLayout;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -40,11 +43,6 @@ import java.util.Set;
 import java.util.Map.Entry;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
-
-
-
 
 public class NewGUIManager extends JFrame {
 	
@@ -83,7 +81,9 @@ public class NewGUIManager extends JFrame {
 	private JTextField  	usernameField;
 	private JLabel      	passwordLabel;
 	private JTextField  	passwordField;
-	private JButton     	queueSong;	
+	private JButton     	queueSongButton;
+	private JButton 		playButton;
+
 	
 	private JPanel   		bottomPanelWithUserInfoAndExitProgram;
 	private JPanel      	userInfoSubPanel;
@@ -108,11 +108,17 @@ public class NewGUIManager extends JFrame {
 		this.setSize(720, 420);
 		this.setLocation(300, 100);
 		this.setTitle("Super Turbo Jukebox 4 !!!");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener( new JukeBoxWindowClosing());
 		
 		// Settings for song lists panel
-		
+		System.out.print("Size of Playlist: " + myJukeBox.getPlaylist().getSize());
 		playQueueModel = new DefaultListModel<String>();
+		if (myJukeBox.getPlaylist().getSize() > 0) {
+			for (Song playQueueSong : myJukeBox.getPlaylist().getPlayQueue()) {
+				playQueueModel.addElement(playQueueSong.toString());
+			}
+		}
 		playQueue = new JList<String>(playQueueModel);
 		queuedSongs = new JScrollPane(playQueue);
 		queuedSongs.setPreferredSize(new Dimension(360, 300));
@@ -130,7 +136,7 @@ public class NewGUIManager extends JFrame {
 		passwordLabel = new JLabel("Password");
 		passwordField = new JTextField(5);
 		loginLogout   = new JButton("Login");
-		queueSong = new JButton("Add Song to Queue");
+		queueSongButton = new JButton("Add");
 		midPanelWithUserLoginAndQueueSong = new JPanel();
 		midPanelWithUserLoginAndQueueSong.setLayout(new FlowLayout(FlowLayout.LEFT));
 		midPanelWithUserLoginAndQueueSong.add(usernameLabel);
@@ -139,7 +145,12 @@ public class NewGUIManager extends JFrame {
 		midPanelWithUserLoginAndQueueSong.add(passwordField);
 		midPanelWithUserLoginAndQueueSong.add(loginLogout);
 		midPanelWithUserLoginAndQueueSong.add(new JLabel("                             "));
-		midPanelWithUserLoginAndQueueSong.add(queueSong);
+		midPanelWithUserLoginAndQueueSong.add(queueSongButton);
+		playButton = new JButton("Play");
+		midPanelWithUserLoginAndQueueSong.add(playButton);
+
+
+		
 		
 		// Settings for user info / exit
 		userInfoSubPanel = new JPanel(new GridLayout(3, 1));
@@ -149,9 +160,7 @@ public class NewGUIManager extends JFrame {
 		userInfoSubPanel.add(loggedInAsAndWelcome);
 		userInfoSubPanel.add(timeRemaining);
 		userInfoSubPanel.add(songsPlayedToday);
-		exitProgram = new JButton("Exit Jukebox Program");
 		exitProgramSubPanel = new JPanel(new BorderLayout());
-		exitProgramSubPanel.add(exitProgram, BorderLayout.SOUTH);
 		bottomPanelWithUserInfoAndExitProgram = new JPanel();
 		bottomPanelWithUserInfoAndExitProgram.setLayout(new BorderLayout());
 		bottomPanelWithUserInfoAndExitProgram.add(userInfoSubPanel, BorderLayout.WEST);
@@ -163,13 +172,14 @@ public class NewGUIManager extends JFrame {
 		rootPanel.add(midPanelWithUserLoginAndQueueSong, BorderLayout.CENTER);
 		rootPanel.add(bottomPanelWithUserInfoAndExitProgram, BorderLayout.SOUTH);
 		this.add(rootPanel);
+		
 	} // Ends Method LayoutGUI
 	
 	public void registerListeners(){
 		
 		loginLogout.addActionListener( new LoginButtonListener() );
-		exitProgram.addActionListener(new TempExitButtonListener());
-		queueSong.addActionListener(new AddToPlayQueueButtonListener());
+		queueSongButton.addActionListener(new AddToPlayQueueButtonListener());
+		playButton.addActionListener(new PlayJukeBoxButtonListener() );
 		
 	} // Ends Method registerListeners
 		
@@ -235,7 +245,7 @@ public class NewGUIManager extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			
 			if(loggedInStudent == null){
-				JOptionPane.showMessageDialog(null, "User Not Logged In!", "User Not Logged In!", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Not Logged In!", "Please login", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			
@@ -244,24 +254,104 @@ public class NewGUIManager extends JFrame {
 			System.out.println(songToAddToPlayQueue);
 
 			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
+				if (songToAddToPlayQueue.canPlay()) {
 				loggedInStudent.selectSong(songToAddToPlayQueue);
+				songToAddToPlayQueue.selectSong();
 				playQueueModel.addElement(songToAddToPlayQueue.toString());
 				myJukeBox.queue(songToAddToPlayQueue);
 				System.out.println(myJukeBox.getPlaylist().getSize());
-				if(playQueueModel.getSize() == 1){
- 					System.out.println("Playlist empty");
-					myJukeBox.getPlaylist().play();
-				}
 				
 				timeRemaining.setText("Minutes: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() / 60) + " " +
 					   "Seconds: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() % 60));
 				songsPlayedToday.setText("Songs Played Today: " + Integer.toString(loggedInStudent.getNumOfSongsPlayedToday()));
+				} else {
+					JOptionPane.showMessageDialog(null, "This song has been played 3 times today", "Song Unavailable", JOptionPane.ERROR_MESSAGE);
 
+				}
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "You cannot add this song", "Limit Reaced", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You cannot played anymore songs today", "Your Limit has been Reached", JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
+		
+	}
+	
+	private class PlayJukeBoxButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			myJukeBox.getPlaylist().play();
+			
+		}
+		
+		
+	}
+	
+	public class JukeBoxWindowClosing implements WindowListener {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			
+			int dialogButtons = JOptionPane.YES_NO_CANCEL_OPTION;
+			int decision = JOptionPane.showConfirmDialog(null,"Do you want to save your data?", "Save Data",  dialogButtons);
+			if (decision == JOptionPane.YES_OPTION) {
+				Serializer.serializePlayQueue(myJukeBox.getPlaylist());
+				Serializer.serializeStudentCollection(myJukeBox.getStudentCollection());
+				Serializer.serializeSongCollection(myJukeBox.getSongCollection());
+				setVisible(false); 
+				dispose(); 
+				
+			} else if (decision == JOptionPane.NO_OPTION) {
+				
+				setVisible(false); 
+				dispose(); 
+				
+			} else {
+				
+				// do nothing if cancel
+			}
+			
+		}
+
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
 		
 	}
 		

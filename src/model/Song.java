@@ -19,9 +19,10 @@
  ||
  ++-----------------------------------------------------------------------*/
 package model;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Song {
+public class Song implements Serializable {
 	
 	private int timesPlayedToday = 0;					// How many times played today?
 	private int durationInSeconds;						// How long is the song in seconds?
@@ -62,7 +63,7 @@ public class Song {
 		this.lastTimePlayed = date;
 	} // Ends setLastTimePlayed
 	
-	public void updateNumOfPlays() {
+	public void selectSong() {
 		if( this.lastTimePlayed.equals(LocalDate.now())) {
 			this.timesPlayedToday++;
 		} else {
@@ -77,7 +78,6 @@ public class Song {
 	
 	public void play(){
 		if( canPlay() ){
-			updateNumOfPlays();
 			// song do stuff
 		}
 		else{

@@ -14,9 +14,10 @@
  ||
  ++-----------------------------------------------------------------------*/
 package model;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class StudentCollection {
+public class StudentCollection implements Serializable {
 	
 	private HashMap<String,Student> students;	// Contains all students
 	private int size;							// How many entries are there?
@@ -50,4 +51,8 @@ public class StudentCollection {
 		
 		
 	} // Ends Method populateStudents
+	
+	public int getSize() {
+		return this.size;
+	}
 } // Ends Class StudentCollection

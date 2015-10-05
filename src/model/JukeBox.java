@@ -50,9 +50,26 @@ public class JukeBox {
 	private PlayList playlist;						// Contains the current playlist (queue)
 	
 	public JukeBox() {
-		this.studentCollection = new StudentCollection();
-		this.songCollection    = new SongCollection();
-		this.playlist = new PlayList();
+		
+		if (Serializer.deserializeStudentCollection() != null) {
+			this.studentCollection = Serializer.deserializeStudentCollection();
+		} else {
+			this.studentCollection = new StudentCollection();
+
+		}
+		
+		if (Serializer.deserializeSongCollection() != null) {
+			this.songCollection = Serializer.deserializeSongCollection();
+		} else {
+			this.songCollection = new SongCollection();
+		}
+		
+		
+		if (Serializer.deserializePlayQueue() != null) {
+			this.playlist = Serializer.deserializePlayQueue();
+		} else {
+			this.playlist = new PlayList();
+		}
 	} // Ends Constructor
 	
 	private void RunJukeBox(){	
@@ -87,7 +104,6 @@ public class JukeBox {
 	
 	public ArrayList<Song> getPlayList() {
 		ArrayList<Song> songs = new ArrayList<Song>();
-		songs.add(new Song("1","1","1",9));
 		return songs;
 	}
 	

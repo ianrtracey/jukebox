@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,7 +13,7 @@ import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
 
 
-public class PlayList {
+public class PlayList implements Serializable {
 	
 	ArrayDeque<Song> playQueue;
 	int size;
@@ -50,6 +51,16 @@ public class PlayList {
 		return playQueueSongs;
 	}
 	
+	public ArrayList<String> getPlayQueueAsStrings() {
+		ArrayList<String> playQueueSongs = new ArrayList<String>();
+		if ( !playQueue.isEmpty() ) {
+			for(Iterator itr = playQueue.iterator(); itr.hasNext(); ) {
+				playQueueSongs.add( itr.next().toString() );
+			}
+		}
+		return playQueueSongs;
+	}
+	
 	public int getSize() {
 		return this.size;
 	}
@@ -66,7 +77,7 @@ public class PlayList {
 	   * songFinishedPlaying when the audio file has been played. Note: static was
 	   * added here because it is called from main.
 	   */
-	  class ObjectWaitingForSongToEnd implements EndOfSongListener {
+	  class ObjectWaitingForSongToEnd implements EndOfSongListener, Serializable {
 		  
 		public boolean currentlyPlaying;
 		public PlayList playlist;
@@ -98,6 +109,7 @@ public class PlayList {
 	    
 	    	
 	    }
+	    
 	   
 	  }
 	
