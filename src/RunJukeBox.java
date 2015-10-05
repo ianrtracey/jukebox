@@ -1,9 +1,9 @@
-import view.NewGUIManager;
+import view.GUIManager;
 
 public class RunJukeBox {
 	
 	public static void main(String[] args) {
-		NewGUIManager gui = new NewGUIManager();
+		GUIManager gui = new GUIManager();
 		gui.setVisible(true);
 	}
 

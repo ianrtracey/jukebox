@@ -3,6 +3,7 @@ package songplayer;
 import java.io.Serializable;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 
 import model.PlayList;
 
@@ -11,6 +12,8 @@ public class ObjectWaitingForSongToEnd implements EndOfSongListener, Serializabl
 	public boolean currentlyPlaying;
 	public PlayList playlist;
 	public DefaultListModel listModel;
+	public JButton playButton;
+	
 	
 	public ObjectWaitingForSongToEnd(PlayList playList) {
 		currentlyPlaying = false;
@@ -25,12 +28,18 @@ public class ObjectWaitingForSongToEnd implements EndOfSongListener, Serializabl
 		this.listModel = listModel;
 	}
 	
+	public void registerPlayButton(JButton playButton){
+		this.playButton = playButton;
+		
+	}
+	
 	public boolean isPlaying() {
 		return currentlyPlaying;
 	}
 	
   public void songFinishedPlaying(EndOfSongEvent eosEvent) {
 	if (playlist.getSize() == 0) {
+		this.playButton.setEnabled(true);
   	  	playlist.dequeueSong();
   	  	this.listModel.remove(0);
 	}
