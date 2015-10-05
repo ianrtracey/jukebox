@@ -20,14 +20,13 @@ public class SongTest {
 	public void test_timesPlayed() {
 		mySong = new Song("Can't Forget About You", "Nas", "cant_forget.wav", 180 );
 		assertEquals(0, mySong.getTimesPlayedToday());
-		mySong.play();
+		mySong.selectSong();
 		assertEquals(1, mySong.getTimesPlayedToday());
-		mySong.play();
+		mySong.selectSong();
 		assertEquals(2, mySong.getTimesPlayedToday());
-		mySong.play();
+		mySong.selectSong();
 		assertEquals(3, mySong.getTimesPlayedToday());
-		mySong.play();
-		assertNotEquals(4, mySong.getTimesPlayedToday());
+		assertFalse(mySong.canPlay());
 	}
 	
 

@@ -140,7 +140,7 @@ public class JukeBoxTest {
 	@Test
 	public void testJukeBoxSize() {
 		JukeBox jukebox = new JukeBox();
-		assertTrue(jukebox.getPlaylist().getSize() == 0);
+		assertEquals(0, jukebox.getPlaylist().getSize());
 		jukebox.queue( new Song("test","tst","flute.aif",12) );
 		assertTrue(jukebox.getPlaylist().getSize() == 1);
 		jukebox.queue( new Song("test","tst","flute.aif",12));
