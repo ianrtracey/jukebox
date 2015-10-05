@@ -4,6 +4,7 @@ import model.Serializer;
 import model.Song;
 import model.SongCollection;
 import model.Student;
+import songplayer.ObjectWaitingForSongToEnd;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -177,6 +178,9 @@ public class NewGUIManager extends JFrame {
 		loginLogout.addActionListener( new LoginButtonListener() );
 		queueSongButton.addActionListener(new AddToPlayQueueButtonListener());
 		playButton.addActionListener(new PlayJukeBoxButtonListener() );
+		ObjectWaitingForSongToEnd waiter = new ObjectWaitingForSongToEnd(myJukeBox.getPlaylist());
+		waiter.registerJList(playQueueModel);
+		myJukeBox.getPlaylist().registerWaiter(waiter);
 		
 	} // Ends Method registerListeners
 		
