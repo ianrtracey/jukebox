@@ -110,7 +110,6 @@ public class GUIManager extends JFrame {
 		this.addWindowListener( new JukeBoxWindowClosing());
 		
 		// Settings for song lists panel
-		System.out.print("Size of Playlist: " + myJukeBox.getPlaylist().getSize());
 		playQueueModel = new DefaultListModel<String>();
 		if (myJukeBox.getPlaylist().getSize() > 0) {
 			for (Song playQueueSong : myJukeBox.getPlaylist().getPlayQueue()) {
@@ -265,9 +264,7 @@ public class GUIManager extends JFrame {
 				loggedInStudent.selectSong(songToAddToPlayQueue);
 				songToAddToPlayQueue.selectSong();
 				playQueueModel.addElement(songToAddToPlayQueue.toString());
-				myJukeBox.queue(songToAddToPlayQueue);
-				System.out.println(myJukeBox.getPlaylist().getSize());
-				
+				myJukeBox.queue(songToAddToPlayQueue);				
 				timeRemaining.setText("Minutes: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() / 60) + " " +
 					   "Seconds: "+ Integer.toString(loggedInStudent.getLifetimeSecondsRemaining() % 60));
 				songsPlayedToday.setText("Songs Played Today: " + Integer.toString(loggedInStudent.getNumOfSongsPlayedToday()));
