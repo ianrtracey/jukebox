@@ -1,3 +1,23 @@
+/*+----------------------------------------------------------------------
+ ||
+ ||  Class GUIManager
+ ||
+ ||        Purpose: Contains the View and Controllers for the Jukebox
+ ||
+ |+-----------------------------------------------------------------------
+ ||
+ ||        Methods: 	public GUIManager()
+ ||						public void layoutGUI()
+ ||						public JukeBox getJukeBox()
+ ||						public void registerListeners()	
+ ||
+ ||    Sub Classes:
+ ||						private class LoginButtonListener implements ActionListener
+ ||						private class AddToPlayQueueButtonListener implements ActionListener
+ ||
+ ||						class SongDisplayList implements TableModel
+ ||
+ ++-----------------------------------------------------------------------*/
 package view;
 import model.JukeBox;
 import model.Serializer;
@@ -5,20 +25,14 @@ import model.Song;
 import model.SongCollection;
 import model.Student;
 import songplayer.ObjectWaitingForSongToEnd;
-
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
-import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,51 +43,34 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.ScrollPaneLayout;
-import javax.swing.border.Border;
-import javax.swing.event.ListDataListener;
+import javax.swing.RowSorter;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
-
-
+import javax.swing.table.TableRowSorter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map.Entry;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GUIManager extends JFrame {
-	
-	
 	
 	//**********************************|
 	// ---    OBJECT DECLARATIONS    ---|
 	//**********************************|	
 	private JukeBox myJukeBox = new JukeBox();
 	
-	
-	
-	
-	
-	
 	//**********************************|
 	// --- UI COMPONENT DECLARATIONS ---|
 	//**********************************|
-	
-	private JPanel 			rootPanel;
-		
+	private JPanel 			rootPanel;	
 	private JPanel   		topPanelWithThe2SongLists;
 	private JScrollPane 	queuedSongs;
 	private JScrollPane 	allSongs;
 	private SongDisplayList mySongList;
 	private DefaultListModel<String> playQueueModel;
-	
 	private JList<String>	playQueue;
 	private JTable          allSongsTable;
-	
+	RowSorter<TableModel> songSorter;
 	private JPanel   		midPanelWithUserLoginAndQueueSong;
 	private JLabel      	usernameLabel;
 	private JTextField  	usernameField;
@@ -81,24 +78,21 @@ public class GUIManager extends JFrame {
 	private JTextField  	passwordField;
 	private JButton     	queueSongButton;
 	private JButton 		playButton;
-
-	
 	private JPanel   		bottomPanelWithUserInfoAndExitProgram;
 	private JPanel      	userInfoSubPanel;
 	private JPanel      	exitProgramSubPanel;
 	private JButton    		loginLogout;
-	private JButton    	 	exitProgram;
 	private JLabel     	 	loggedInAsAndWelcome;
 	private JLabel     	 	timeRemaining;
 	private JLabel     	 	songsPlayedToday;
-	
+
 	boolean userIsLoggedIn;
 	Student loggedInStudent;
 	
 	public GUIManager(){
 		this.layoutGUI();
 		this.registerListeners();
-	}
+	} // Ends Constructor
 	
 	public void layoutGUI(){
 		
@@ -122,6 +116,8 @@ public class GUIManager extends JFrame {
 		mySongList = new SongDisplayList(myJukeBox.getSongCollection());
 		allSongsTable = new JTable(mySongList);
 		allSongs = new JScrollPane(allSongsTable);
+		songSorter = new TableRowSorter<TableModel>(mySongList);
+		allSongsTable.setRowSorter(songSorter);
 		allSongs.setPreferredSize(new Dimension(360, 300));
 		topPanelWithThe2SongLists = new JPanel(new GridLayout(1, 2));
 		topPanelWithThe2SongLists.add(queuedSongs);
@@ -141,7 +137,7 @@ public class GUIManager extends JFrame {
 		midPanelWithUserLoginAndQueueSong.add(passwordLabel);
 		midPanelWithUserLoginAndQueueSong.add(passwordField);
 		midPanelWithUserLoginAndQueueSong.add(loginLogout);
-		midPanelWithUserLoginAndQueueSong.add(new JLabel("                             "));
+		midPanelWithUserLoginAndQueueSong.add(new JLabel("                                                                           "));
 		midPanelWithUserLoginAndQueueSong.add(queueSongButton);
 		playButton = new JButton("Play");
 		midPanelWithUserLoginAndQueueSong.add(playButton);
@@ -165,16 +161,14 @@ public class GUIManager extends JFrame {
 		rootPanel.add(topPanelWithThe2SongLists, BorderLayout.NORTH);
 		rootPanel.add(midPanelWithUserLoginAndQueueSong, BorderLayout.CENTER);
 		rootPanel.add(bottomPanelWithUserInfoAndExitProgram, BorderLayout.SOUTH);
-		this.add(rootPanel);
-		
+		this.add(rootPanel);	
 	} // Ends Method LayoutGUI
 	
 	public JukeBox getJukeBox() {
 		return myJukeBox;
-	}
+	} // Ends Method getJukeBox
 	
-	public void registerListeners(){
-		
+	public void registerListeners(){	
 		loginLogout.addActionListener( new LoginButtonListener() );
 		queueSongButton.addActionListener(new AddToPlayQueueButtonListener());
 		playButton.addActionListener(new PlayJukeBoxButtonListener() );
@@ -182,13 +176,11 @@ public class GUIManager extends JFrame {
 		waiter.registerJList(playQueueModel);
 		myJukeBox.getPlaylist().registerWaiter(waiter);
 		waiter.registerPlayButton(playButton);
-		
 	} // Ends Method registerListeners
 		
 	private class LoginButtonListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
+		public void actionPerformed(ActionEvent e) {		
 			if(loginLogout.getText().equals("Logout")){
 				loggedInStudent = null;
 				loginLogout.setText("Login");
@@ -231,16 +223,8 @@ public class GUIManager extends JFrame {
 			}
 		}
 	} // Ends Private SubClass LoginButtonListener
-
-	private class TempExitButtonListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			System.exit(0);
-		}
-	} // Ends Private SubClass TempExitButtonListener
 	
 	private class AddToPlayQueueButtonListener implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -248,16 +232,13 @@ public class GUIManager extends JFrame {
 				JOptionPane.showMessageDialog(null, "Not Logged In!", "Please login", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
-
 			// The try catch handles the user not selecting a song, usually on first login
 			Song songToAddToPlayQueue;
 			try{
-			songToAddToPlayQueue = mySongList.get(allSongsTable.getSelectedRow());
-			}catch(Exception ex) {return;}
-			
-
-
+				songToAddToPlayQueue = mySongList.get(allSongsTable.convertRowIndexToModel(allSongsTable.getSelectedRow()));
+			}catch(Exception ex) {
+				return;
+			}
 
 			if (loggedInStudent.canPlaySong(songToAddToPlayQueue.getDurationOfSong())) {
 				if (songToAddToPlayQueue.canPlay()) {
@@ -271,40 +252,25 @@ public class GUIManager extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "This song has been played 3 times today", "Song Unavailable", JOptionPane.ERROR_MESSAGE);
 
-				}
-				
+				}	
 			} else {
-				JOptionPane.showMessageDialog(null, "You cannot played anymore songs today", "Your Limit has been Reached", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "You cannot play anymore songs today", "Your Limit has been Reached", JOptionPane.ERROR_MESSAGE);
 			}
-
 		}
-		
-	}
+	} // Ends Private SubClass AddToPlayQueueButtonListener
 	
 	private class PlayJukeBoxButtonListener implements ActionListener {
-
-		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			if(myJukeBox.getPlaylist().getSize()==0){return;}
-			
-			playButton.setEnabled(false);
-			
-			myJukeBox.getPlaylist().play();
-			
-			
-			
-		}
-		
-		
-	}
+			if(myJukeBox.getPlaylist().getSize()==0){return;}	
+			playButton.setEnabled(false);	
+			myJukeBox.getPlaylist().play();	
+		}	
+	} // Ends Private SubClass PlayJukeBoxButtonListener
 	
 	public class JukeBoxWindowClosing implements WindowListener {
-
 		@Override
-		public void windowClosing(WindowEvent e) {
-			
+		public void windowClosing(WindowEvent e) {			
 			int dialogButtons = JOptionPane.YES_NO_CANCEL_OPTION;
 			int decision = JOptionPane.showConfirmDialog(null,"Do you want to save your data?", "Save Data",  dialogButtons);
 			if (decision == JOptionPane.YES_OPTION) {
@@ -312,63 +278,39 @@ public class GUIManager extends JFrame {
 				Serializer.serializeStudentCollection(myJukeBox.getStudentCollection());
 				Serializer.serializeSongCollection(myJukeBox.getSongCollection());
 				setVisible(false); 
-				dispose(); 
-				
-			} else if (decision == JOptionPane.NO_OPTION) {
-				
+				dispose(); 			
+			} else if (decision == JOptionPane.NO_OPTION) {			
 				setVisible(false); 
-				dispose(); 
-				
-			} else {
-				
+				dispose(); 	
+			} else {		
 				// do nothing if cancel
 			}
-			
 		}
-
 		@Override
 		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub		
 		}
-
 		@Override
 		public void windowClosed(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub		
 		}
-
 		@Override
 		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub		
 		}
-
 		@Override
 		public void windowDeiconified(WindowEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
-
 		@Override
 		public void windowActivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub	
 		}
-
 		@Override
 		public void windowDeactivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		
-	}
-		
-	
-	
-
+			// TODO Auto-generated method stub	
+		}	
+	} // Ends Private SubClass JukeBoxWindowClosing 
 } // Ends Class NewGUIManager
 
 /*+----------------------------------------------------------------------
@@ -412,7 +354,6 @@ class SongDisplayList implements TableModel{
 		}
 	} // Ends Method setUpTable
 	
-	
 	@Override
 	public int getRowCount() {
 		return allSongs.size();
@@ -444,7 +385,6 @@ class SongDisplayList implements TableModel{
 	} // Ends Method getColumnClass
 	
 	public Song get(int row) {
-		
 		return allSongs.get(row);
 	}
 	
@@ -477,4 +417,3 @@ class SongDisplayList implements TableModel{
 		// TODO Auto-generated method stub
 	}
 } // Ends Class SongDisplayList
-
