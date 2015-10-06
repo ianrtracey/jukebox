@@ -57,7 +57,7 @@ public class GUIManager extends JFrame {
 	//**********************************|
 	// ---    OBJECT DECLARATIONS    ---|
 	//**********************************|	
-	private JukeBox myJukeBox = new JukeBox();
+	private JukeBox myJukeBox;
 	
 	//**********************************|
 	// --- UI COMPONENT DECLARATIONS ---|
@@ -89,15 +89,17 @@ public class GUIManager extends JFrame {
 	boolean userIsLoggedIn;
 	Student loggedInStudent;
 	
-	public GUIManager(){
+	public GUIManager(JukeBox jukeBox){
+		this.myJukeBox = jukeBox;
 		this.layoutGUI();
 		this.registerListeners();
+		this.checkIfDataLoaded(jukeBox.getIsDataLoaded());
 	} // Ends Constructor
 	
 	public void layoutGUI(){
 		
 		// Basic settings for entire JFrame
-		this.setSize(720, 420);
+		this.setSize(720, 500);
 		this.setLocation(300, 100);
 		this.setTitle("Super Turbo Jukebox 4 !!!");
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -163,6 +165,14 @@ public class GUIManager extends JFrame {
 		rootPanel.add(bottomPanelWithUserInfoAndExitProgram, BorderLayout.SOUTH);
 		this.add(rootPanel);	
 	} // Ends Method LayoutGUI
+	
+	public void checkIfDataLoaded(boolean isDataLoaded) {
+		if (isDataLoaded && myJukeBox.getPlaylist().getSize() > 0) {
+			myJukeBox.getPlaylist().play();
+			playButton.setEnabled(false);	
+
+		}
+	}
 	
 	public JukeBox getJukeBox() {
 		return myJukeBox;

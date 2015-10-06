@@ -22,8 +22,13 @@ public class JukeBox {
 	private StudentCollection studentCollection;	// Contains all students registered in Jukebox
 	private SongCollection songCollection;			// Contains all songs in the Jukebox
 	private PlayList playlist;						// Contains the current playlist (queue)
+	private boolean loadData;
 	
-	public JukeBox() {
+	public JukeBox(boolean loadData) {
+		this.loadData = loadData;
+		
+		if (loadData) {
+			
 		if (Serializer.deserializeStudentCollection() != null) {
 			this.studentCollection = Serializer.deserializeStudentCollection();
 		} else {
@@ -39,6 +44,11 @@ public class JukeBox {
 		if (Serializer.deserializePlayQueue() != null) {
 			this.playlist = Serializer.deserializePlayQueue();
 		} else {
+			this.playlist = new PlayList();
+		}
+		} else {
+			this.studentCollection = new StudentCollection();
+			this.songCollection = new SongCollection();
 			this.playlist = new PlayList();
 		}
 	} // Ends Constructor
@@ -57,6 +67,10 @@ public class JukeBox {
 	public void queue(Song song) {
 		this.playlist.queueSong(song);
 	} // Ends Method queue
+	
+	public boolean getIsDataLoaded() {
+		return loadData;
+	}
 	
 	// GETTERS AND SETTERS
 	public StudentCollection getStudentCollection() {

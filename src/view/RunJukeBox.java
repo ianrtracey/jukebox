@@ -13,9 +13,33 @@
  | Deficiencies:  None. This program operates in accordance to specification
  *===========================================================================*/
 package view;
+
+import java.io.File;
+
+import javax.swing.JOptionPane;
+
+import model.JukeBox;
+
 public class RunJukeBox {
 	public static void main(String[] args) {
-		GUIManager gui = new GUIManager();
+		String dataDir = System.getProperty("user.dir")
+		  	      + System.getProperty("file.separator") + "data"
+		  	      + System.getProperty("file.separator");
+		
+		boolean dataLoad = false;
+		File data = new File(dataDir);
+		if (data.list().length > 0)  {
+			int dialogButtons = JOptionPane.YES_NO_OPTION;
+			int decision = JOptionPane.showConfirmDialog(null,"Do you want to load the saved data?", "Load Data",  dialogButtons);
+			if (decision == JOptionPane.YES_OPTION) {
+				dataLoad = true;
+			} else {
+				dataLoad = false;
+			}
+		}
+		JukeBox jukeBox = new JukeBox(dataLoad);
+				
+		GUIManager gui = new GUIManager(jukeBox);
 		gui.setVisible(true);
 	} // Ends Main Method
 } // Ends Class RunJukeBox

@@ -84,7 +84,7 @@ public class JukeBoxTest {
 
 		SongCollection songCollection = new SongCollection();
 
-		JukeBox jukebox = new JukeBox();
+		JukeBox jukebox = new JukeBox(false);
 
 		// Cant add the same song twice
 		assertTrue(jukebox.getSongCollection().add(new Song("SongTest", "Worst Artist", "songtest.mp3", 90)));
@@ -128,7 +128,7 @@ public class JukeBoxTest {
 		assertFalse(students.add(new Student("River", 333)));
 		assertFalse(students.add(new Student("Ryan", 444)));
 
-		JukeBox jukebox = new JukeBox();
+		JukeBox jukebox = new JukeBox(false);
 
 		assertFalse(jukebox.login("Chri", "1"));
 		assertFalse(jukebox.login("Chri", "10"));
@@ -138,7 +138,7 @@ public class JukeBoxTest {
 
 	@Test
 	public void testJukeBoxSize() {
-		JukeBox jukebox = new JukeBox();
+		JukeBox jukebox = new JukeBox(false);
 		assertEquals(0, jukebox.getPlaylist().getSize());
 		jukebox.queue(new Song("test", "tst", "flute.aif", 12));
 		assertTrue(jukebox.getPlaylist().getSize() == 1);
