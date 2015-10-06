@@ -46,6 +46,7 @@ public class JukeBox {
 	public boolean login(String id, String password) {
 		if( this.studentCollection.get(id) != null ) { 
 			if( this.studentCollection.get(id).getPassword() == Integer.parseInt(password)) {
+				System.out.println(Integer.parseInt(password));
 				return true;
 			} // Ends password conditional
 		} // Ends userID conditional

@@ -195,7 +195,14 @@ public class GUIManager extends JFrame {
 			usernameField.setText("");
 			passwordField.setText("");
 			
-			boolean success = myJukeBox.login(username, password);
+			boolean success = false;
+			
+			// Handles a non-integer password entry
+			try {
+				success = myJukeBox.login(username, password);	
+			} catch (Exception e2) {
+				// Lazy catch here, just pass through cause success is initialized to false
+			}
 			
 			if (success)  {
 				loggedInStudent = myJukeBox.getStudentCollection().get(username);
